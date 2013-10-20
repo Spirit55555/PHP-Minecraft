@@ -69,7 +69,7 @@ class MinecraftColors {
 
 	static public function convertToHTML($text) {
 		$text = self::UFT8Encode($text);
-		//$text = htmlspecialchars($text);
+		$text = htmlspecialchars($text);
 
 		preg_match_all(self::REGEX, $text, $offsets);
 
