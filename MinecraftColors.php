@@ -106,7 +106,7 @@ class MinecraftColors {
 						$html = '';
 
 						if ($open_tags != 0) {
-							$html = str_repeat(self::CLOSE_TAG, $open_tags).$html;
+							$html = str_repeat(self::CLOSE_TAG, $open_tags);
 							$open_tags = 0;
 						}
 
