@@ -131,7 +131,7 @@ class MinecraftColors {
 		}
 
 		//Still open tags? Close them!
-		if (!$open_tags != 0)
+		if ($open_tags != 0)
 			$text = $text.str_repeat(self::CLOSE_TAG, $open_tags);
 
 		//Return the text without empty HTML tags. Only to clean up bad color formatting from the user.
