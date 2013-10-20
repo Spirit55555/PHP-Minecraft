@@ -17,7 +17,7 @@
 */
 
 class MinecraftColors {
-	const REGEX = '/(§|&)([0-9a-fklmnor])/';
+	const REGEX = '/§([0-9a-fklmnor])/';
 
 	CONST START_TAG  = '<span style="%s">';
 	CONST CLOSE_TAG  = '</span>';
@@ -62,17 +62,19 @@ class MinecraftColors {
 
 	static public function clean($text) {
 		$text = self::UFT8Encode($text);
+		$text = htmlspecialchars($text);
 
 		return preg_replace(self::REGEX, '', $text);
 	}
 
 	static public function convertToHTML($text) {
 		$text = self::UFT8Encode($text);
+		//$text = htmlspecialchars($text);
 
 		preg_match_all(self::REGEX, $text, $offsets);
 
 		$colors      = $offsets[0]; //This is what we are going to replace with HTML.
-		$color_codes = $offsets[2]; //This is the color numbers/characters only.
+		$color_codes = $offsets[1]; //This is the color numbers/characters only.
 
 		//No colors? Just return the text.
 		if (empty($colors))
