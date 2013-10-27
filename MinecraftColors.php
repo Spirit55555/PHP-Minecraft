@@ -19,10 +19,10 @@
 class MinecraftColors {
 	const REGEX = '/§([0-9a-fklmnor])/';
 
-	CONST START_TAG  = '<span style="%s">';
-	CONST CLOSE_TAG  = '</span>';
-	CONST CSS_COLOR  = 'color: #';
-	CONST EMPTY_TAGS = '/<[^\/>]*>([\s]?)*<\/[^>]*>/';
+	const START_TAG  = '<span style="%s">';
+	const CLOSE_TAG  = '</span>';
+	const CSS_COLOR  = 'color: #';
+	const EMPTY_TAGS = '/<[^\/>]*>([\s]?)*<\/[^>]*>/';
 
 	static private $colors = array(
 		'0' => '000000', //Black
