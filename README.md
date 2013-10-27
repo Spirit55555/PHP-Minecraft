@@ -2,7 +2,7 @@
 
 ## MinecraftColors.php
 
-Convert Minecraft color codes to HTML/CSS.
+Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
 
 ### Ussage
 
@@ -12,10 +12,12 @@ require 'MinecraftColors.php';
 
 $text = '§4Lorem §3§lipsum §rdolor §nsit §c§mamet';
 
-echo MinecraftColors::clean($text);
 echo MinecraftColors::convertToHTML($text);
+echo MinecraftColors::clean($text);
 ?>
 ```
+
+More information about Minecraft colors: http://minecraft.gamepedia.com/index.php?title=Color_codes
 
 ## MinecraftVotifier.php
 
@@ -30,3 +32,5 @@ $votifier = new MinecraftVotifier('YOUR_PUBLIC_KEY', 'YOUR_SERVER_IP', 'YOUR_VOT
 $votifier->sendVote('MINECRAFT_USERNAME');
 ?>
 ```
+
+More information about Votifier: http://dev.bukkit.org/bukkit-plugins/votifier/
