@@ -29,7 +29,7 @@ Send Votifier votes to a Minecraft server.
 <?php
 require 'MinecraftVotifier.php';
 
-$votifier = new MinecraftVotifier('YOUR_PUBLIC_KEY', 'YOUR_SERVER_IP', 'YOUR_VOTIFIER_PORT', 'YOU_SERVICE_NAME');
+$votifier = new MinecraftVotifier('YOUR_PUBLIC_KEY', 'YOUR_SERVER_IP', 'YOUR_VOTIFIER_PORT', 'YOUR_SERVICE_NAME');
 $votifier->sendVote('MINECRAFT_USERNAME');
 ?>
 ```
