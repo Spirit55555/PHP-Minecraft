@@ -17,7 +17,7 @@
 */
 
 class MinecraftColors {
-	const REGEX = '/§([0-9a-fklmnor])/';
+	const REGEX = '/§([0-9a-fklmnor])/i';
 
 	const START_TAG  = '<span style="%s">';
 	const CLOSE_TAG  = '</span>';
@@ -83,7 +83,7 @@ class MinecraftColors {
 		$open_tags = 0;
 
 		foreach ($colors as $index => $color) {
-			$color_code = $color_codes[$index];
+			$color_code = strtolower($color_codes[$index]);
 
 			//We have a normal color.
 			if (isset(self::$colors[$color_code])) {
