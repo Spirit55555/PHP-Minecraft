@@ -37,15 +37,16 @@ class MinecraftVotifier {
 	}
 
 	public function __set($name, $value) {
-		if ($name == 'public_key')
+		if ($name == 'public_key') {
 			$this->public_key = $this->formatPublicKey($value);
-		else
+                } else {
 			$this->$name = $value;
+            }
 	}
 
 	private function formatPublicKey($public_key) {
-		$public_key = wordwrap($public_key, 65, "\n", true);
-		$public_key = sprintf(self::PUBLIC_KEY_FORMAT, $public_key);
+		$public_key = sprintf(self::PUBLIC_KEY_FORMAT, 
+                    wordwrap($public_key, 65, "\n", true));
 
 		return $public_key;
 	}
@@ -59,8 +60,9 @@ class MinecraftVotifier {
 		$socket = @fsockopen($this->server_ip, $this->port);
 
 		if ($socket) {
-			if (fwrite($socket, $data))
+			if (fwrite($socket, $data)) {
 				return true;
+                        }
 		}
 
 		return false;
