@@ -1,6 +1,6 @@
 <?php
 /*
-    Copyright (c) 2013 Anders G. Jørgensen - http://spirit55555.dk
+    Copyright (c) 2014 Anders G. Jørgensen - http://spirit55555.dk
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -17,12 +17,13 @@
 */
 
 class MinecraftColors {
-	const REGEX = '/§([0-9a-fklmnor])/i';
+	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
 
 	const START_TAG  = '<span style="%s">';
 	const CLOSE_TAG  = '</span>';
 	const CSS_COLOR  = 'color: #';
 	const EMPTY_TAGS = '/<[^\/>]*>([\s]?)*<\/[^>]*>/';
+	const LINE_BREAK = '<br />';
 
 	static private $colors = array(
 		'0' => '000000', //Black
@@ -67,7 +68,17 @@ class MinecraftColors {
 		return preg_replace(self::REGEX, '', $text);
 	}
 
-	static public function convertToHTML($text) {
+	static public function convertToMOTD($text, $sign = '\u00A7') {
+		$text = self::UFT8Encode($text);
+		$text = htmlspecialchars($text);
+
+		$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+		$text = str_replace("\n", '\n', $text);
+
+		return $text;
+	}
+
+	static public function convertToHTML($text, $line_break_element = false) {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
 
@@ -133,6 +144,10 @@ class MinecraftColors {
 		//Still open tags? Close them!
 		if ($open_tags != 0)
 			$text = $text.str_repeat(self::CLOSE_TAG, $open_tags);
+
+		//Replace \n with <br />
+		if ($line_break_element)
+			$text = str_replace("\n", self::LINE_BREAK, $text);
 
 		//Return the text without empty HTML tags. Only to clean up bad color formatting from the user.
 		return preg_replace(self::EMPTY_TAGS, '', $text);
