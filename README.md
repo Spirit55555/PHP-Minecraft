@@ -10,9 +10,19 @@ Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
 <?php
 require 'MinecraftColors.php';
 
-$text = '§4Lorem §3§lipsum §rdolor §nsit §c§mamet';
+//Support for § and & signs
+$text = '§4Lorem §3§lipsum §rdolor &nsit &c&mamet';
 
+//Convert to HTML with CSS colors
 echo MinecraftColors::convertToHTML($text);
+
+//Same as above, but will replace \n with <br />
+echo MinecraftColors::convertToHTML($text, true);
+
+//Will be compatible with the server.properties file
+echo MinecraftColors::convertToMOTD($text);
+
+//Removed all color codes
 echo MinecraftColors::clean($text);
 ?>
 ```
