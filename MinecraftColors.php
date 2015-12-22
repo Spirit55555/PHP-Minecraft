@@ -70,7 +70,8 @@ class MinecraftColors {
 
 	static public function convertToMOTD($text, $sign = '\u00A7') {
 		$text = self::UFT8Encode($text);
-
+		$text = str_replace("&", "&amp;", $text);
+		
 		$text = preg_replace(self::REGEX, $sign.'${1}', $text);
 		$text = str_replace("\n", '\n', $text);
 
