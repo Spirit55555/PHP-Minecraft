@@ -22,6 +22,9 @@ echo MinecraftColors::convertToHTML($text, true);
 //Will be compatible with the server.properties file
 echo MinecraftColors::convertToMOTD($text);
 
+//Will be compatible with BungeeCord's config.yml file
+echo MinecraftColors::convertToMOTD($text, '&');
+
 //Removed all color codes
 echo MinecraftColors::clean($text);
 ?>
