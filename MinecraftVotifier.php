@@ -51,7 +51,15 @@ class MinecraftVotifier {
 	}
 
 	public function sendVote($username) {
-		$address = $_SERVER['REMOTE_ADDR']; //FIXME: Is it a good idea to hardcode this? Does not work from CLI.
+		// FIX: Does not work with CLI, blocking $address
+		if(php_sapi_name() !== 'cli') {
+			// Use Client Address BEHIND Proxy if it is a transparent proxy...
+			$address = isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER['REMOTE_ADDR'];
+		} else {
+			// Script is run by CLI, use our own Name
+			$address = $_SERVER["HOST_NAME"];
+		}
+		
 		$vote = sprintf(self::VOTE_FORMAT, $this->service_name, $username, $address, time());
 
 		openssl_public_encrypt($vote, $data, $this->public_key);
@@ -59,8 +67,11 @@ class MinecraftVotifier {
 		$socket = @fsockopen($this->server_ip, $this->port);
 
 		if ($socket) {
-			if (fwrite($socket, $data))
+			if (fwrite($socket, $data)) {
+				// FIX: Sockets should be closed!
+				fclose($socket);
 				return true;
+			}
 		}
 
 		return false;
