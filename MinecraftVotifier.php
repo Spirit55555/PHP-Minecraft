@@ -51,7 +51,6 @@ class MinecraftVotifier {
 	}
 
 	public function sendVote($username) {
-		// FIX: Does not work with CLI, blocking $address
 		if(php_sapi_name() !== 'cli') {
 			// Use Client Address BEHIND Proxy if it is a transparent proxy...
 			$address = isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER['REMOTE_ADDR'];
@@ -68,7 +67,6 @@ class MinecraftVotifier {
 
 		if ($socket) {
 			if (fwrite($socket, $data)) {
-				// FIX: Sockets should be closed!
 				fclose($socket);
 				return true;
 			}
