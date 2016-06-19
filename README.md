@@ -35,6 +35,8 @@ Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
 <?php
 require 'MinecraftColors.php';
 
+use \Spirit55555\Minecraft\MinecraftColors;
+
 //Support for § and & signs
 $text = '§4Lorem §3§lipsum §rdolor &nsit &c&mamet';
 
@@ -67,9 +69,32 @@ Send Votifier votes to a Minecraft server.
 <?php
 require 'MinecraftVotifier.php';
 
+use \Spirit55555\Minecraft\MinecraftVotifier;
+
 $votifier = new MinecraftVotifier('YOUR_PUBLIC_KEY', 'YOUR_SERVER_IP', 'YOUR_VOTIFIER_PORT', 'YOUR_SERVICE_NAME');
 $votifier->sendVote('MINECRAFT_USERNAME');
 ?>
 ```
 
 More information about Votifier: http://dev.bukkit.org/bukkit-plugins/votifier/
+
+## MinecraftJsonColors.php
+
+Converts the minecraft json (http://wiki.vg/Chat) text to legacy format ('§aHello')
+
+### Usage
+
+```php
+<?php
+require 'MinecraftJsonColors.php';
+
+use \Spirit55555\Minecraft\MinecraftJsonColors;
+
+$first_component = ["text" => "first "];
+$second_component = ["text" => "second ", "color" => "red", ""];
+$third_component = ["text" => "third ", "strikethrough" => true];
+$json = ["extra" => [$first_component, $second_component, $third_component]];
+
+echo MinecraftJsonColors::convertToLegacy($json);
+?>
+```
