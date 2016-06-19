@@ -1,4 +1,29 @@
 # PHP-Minecraft
+## Useful PHP classes for Minecraft
+
+###Using Composer?
+
+First require it like this:
+```
+composer require spirit55555/php-minecraft
+```
+
+and then use it like this:
+```php
+use \Spirit55555\Minecraft\MinecraftColors;
+
+class test
+{
+    public function functionName($param)
+    {
+        MinecraftColors::clean("test");
+    }
+}
+```
+
+###Not using Composer?
+
+Just download the files and include them.
 
 ## MinecraftColors.php
 
