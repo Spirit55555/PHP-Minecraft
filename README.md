@@ -36,7 +36,7 @@ More information about Minecraft colors: http://minecraft.gamepedia.com/index.ph
 
 Send Votifier votes to a Minecraft server.
 
-### Ussage
+### Usage
 
 ```php
 <?php
