@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+namespace Spirit55555\Minecraft;
+
 class MinecraftVotifier {
 	const VOTE_FORMAT       = "VOTE\n%s\n%s\n%s\n%d\n";
 	const PUBLIC_KEY_FORMAT = "-----BEGIN PUBLIC KEY-----\n%s\n-----END PUBLIC KEY-----";
@@ -55,12 +57,12 @@ class MinecraftVotifier {
 			// Use Client Address BEHIND Proxy if it is a transparent proxy...
 			$address = isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER['REMOTE_ADDR'];
 		}
-		
+
 		else {
 			// Script is run by CLI, use our own Name
 			$address = $_SERVER["HOST_NAME"];
 		}
-		
+
 		$vote = sprintf(self::VOTE_FORMAT, $this->service_name, $username, $address, time());
 
 		openssl_public_encrypt($vote, $data, $this->public_key);

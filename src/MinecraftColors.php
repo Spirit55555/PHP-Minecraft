@@ -16,6 +16,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+namespace Spirit55555\Minecraft;
+
 class MinecraftColors {
 	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
 
