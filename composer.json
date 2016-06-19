@@ -1,0 +1,20 @@
+{
+    "name": "spirit55555/php-minecraft",
+    "keywords": ["minecraft", "votifier", "chat"],
+    "description": "Useful PHP classes for Minecraft",
+    "type": "library",
+    "homepage": "https://github.com/Spirit55555/PHP-Minecraft/",
+    "support": {
+        "issues": "https://github.com/Spirit55555/PHP-Minecraft/issues",
+        "source": "https://github.com/Spirit55555/PHP-Minecraft"
+    },
+    "require": {
+        "php": ">=5.4"
+    },
+    "license": "GPLv3",
+    "autoload": {
+        "psr-4": {
+            "Spirit55555\\Minecraft\\": "src"
+        }
+    }
+}
