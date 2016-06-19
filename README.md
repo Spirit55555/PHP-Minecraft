@@ -76,4 +76,25 @@ $votifier->sendVote('MINECRAFT_USERNAME');
 ?>
 ```
 
+## MinecraftJsonColors.php
+
+Converts the minecraft json (http://wiki.vg/Chat) text to legacy format ('§aHello')
+
+### Ussage
+
+```php
+<?php
+require 'MinecraftJsonColors.php';
+
+use \Spirit55555\Minecraft\MinecraftJsonColors;
+
+$first_component = ["text" => "first "];
+$second_component = ["text" => "second ", "color" => "red", ""];
+$third_component = ["text" => "third ", "strikethrough" => true];
+$json = ["extra" => [$first_component, $second_component, $third_component]];
+
+echo MinecraftJsonColors::convertToLegacy($json);
+?>
+```
+
 More information about Votifier: http://dev.bukkit.org/bukkit-plugins/votifier/
