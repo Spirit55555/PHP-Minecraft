@@ -35,6 +35,8 @@ Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
 <?php
 require 'MinecraftColors.php';
 
+use \Spirit55555\Minecraft\MinecraftColors;
+
 //Support for § and & signs
 $text = '§4Lorem §3§lipsum §rdolor &nsit &c&mamet';
 
@@ -66,6 +68,8 @@ Send Votifier votes to a Minecraft server.
 ```php
 <?php
 require 'MinecraftVotifier.php';
+
+use \Spirit55555\Minecraft\MinecraftVotifier;
 
 $votifier = new MinecraftVotifier('YOUR_PUBLIC_KEY', 'YOUR_SERVER_IP', 'YOUR_VOTIFIER_PORT', 'YOUR_SERVICE_NAME');
 $votifier->sendVote('MINECRAFT_USERNAME');
