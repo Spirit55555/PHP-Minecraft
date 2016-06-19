@@ -29,7 +29,7 @@ Just download the files and include them.
 
 Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
 
-### Ussage
+### Usage
 
 ```php
 <?php
@@ -61,7 +61,7 @@ More information about Minecraft colors: http://minecraft.gamepedia.com/index.ph
 
 Send Votifier votes to a Minecraft server.
 
-### Ussage
+### Usage
 
 ```php
 <?php
