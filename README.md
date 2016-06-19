@@ -4,7 +4,7 @@
 
 Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
 
-### Ussage
+### Usage
 
 ```php
 <?php
