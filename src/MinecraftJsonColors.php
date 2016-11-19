@@ -72,6 +72,14 @@ class MinecraftJsonColors {
 
     private static function parseElement($json) {
         $legacy = '';
+        
+        if (isset($json['color'])) {
+            $color = $json['color'];
+            if (isset(self::$colors[$color])) {
+                $legacy .= self::COLOR_CHAR . self::$colors[$color];
+            }
+        }
+        
         if (isset($json['obfuscated'])) {
             if ($json['obfuscated']) {
                 $legacy .= self::COLOR_CHAR . self::$formatting['obfuscated'];
@@ -99,13 +107,6 @@ class MinecraftJsonColors {
         if (isset($json['bold'])) {
             if ($json['bold']) {
                 $legacy .= self::COLOR_CHAR . self::$formatting['bold'];
-            }
-        }
-
-        if (isset($json['color'])) {
-            $color = $json['color'];
-            if (isset(self::$colors[$color])) {
-                $legacy .= self::COLOR_CHAR . self::$colors[$color];
             }
         }
 
