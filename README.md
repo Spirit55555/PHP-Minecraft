@@ -1,7 +1,7 @@
 # PHP-Minecraft
 ## Useful PHP classes for Minecraft
 
-###Using Composer?
+### Using Composer?
 
 First require it like this:
 ```
@@ -21,7 +21,7 @@ class test
 }
 ```
 
-###Not using Composer?
+### Not using Composer?
 
 Just download the files and include them.
 
