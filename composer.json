@@ -11,7 +11,7 @@
     "require": {
         "php": ">=5.4"
     },
-    "license": "GPLv3",
+    "license": "GPL-3.0-or-later",
     "autoload": {
         "psr-4": {
             "Spirit55555\\Minecraft\\": "src"
