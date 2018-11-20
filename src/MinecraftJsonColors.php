@@ -61,7 +61,7 @@ class MinecraftJsonColors {
                     $legacy .= $component;
                 } else {
                     //reset the formatting to make the components independent
-                    $legacy .= self::parseElement($component) . self::COLOR_CHAR . self::$formatting['reset'];
+                    $legacy .= self::convertToLegacy($component) . self::COLOR_CHAR . self::$formatting['reset'];
                 }
             }
         }
