@@ -67,6 +67,14 @@ class MinecraftJsonColors {
         }
 
         $legacy .= self::parseElement($json);
+
+        // If nothing was parsed until here, its an array of components.
+        if ($legacy == '' && is_array($json)) {
+            foreach ($json as $item) {
+                $legacy .= self::convertToLegacy($item);
+            }
+        }
+
         return $legacy;
     }
 
