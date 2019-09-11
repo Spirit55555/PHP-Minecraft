@@ -98,45 +98,29 @@ class MinecraftColors {
 		foreach ($colors as $index => $color) {
 			$color_code = strtolower($color_codes[$index]);
 
-			//We have a normal color.
-			if (isset(self::$colors[$color_code])) {
-				$html = sprintf(self::START_TAG, self::CSS_COLOR.self::$colors[$color_code]);
+			$html = '';
 
-				//New color clears the other colors and formatting.
+			$is_reset = $color_code === 'r';
+			$is_color = isset(self::$colors[$color_code]);
+
+			if ($is_reset || $is_color) {
+				// New colors or the reset char: reset all other colors and formatting.
 				if ($open_tags != 0) {
-					$html = str_repeat(self::CLOSE_TAG, $open_tags).$html;
+					$html = str_repeat(self::CLOSE_TAG, $open_tags);
 					$open_tags = 0;
 				}
-
-				$open_tags++;
 			}
 
-			//We have some formatting.
-			else {
-				switch ($color_code) {
-					//Reset is special, just close all open tags.
-					case 'r':
-						$html = '';
+			if ($is_color) {
+				$html .= sprintf(self::START_TAG, self::CSS_COLOR . self::$colors[$color_code]);
+				$open_tags++;
 
-						if ($open_tags != 0) {
-							$html = str_repeat(self::CLOSE_TAG, $open_tags);
-							$open_tags = 0;
-						}
+			} else if ($color_code === 'k') {
+				$html = '';
 
-						break;
-
-					//Can't do obfuscated in CSS...
-					case 'k':
-						$html = '';
-
-						break;
-
-					default:
-						$html = sprintf(self::START_TAG, self::$formatting[$color_code]);
-						$open_tags++;
-
-						break;
-				}
+			} else if (!$is_reset) {
+				$html = sprintf(self::START_TAG, self::$formatting[$color_code]);
+				$open_tags++;
 			}
 
 			//Replace the color with the HTML code. We use preg_replace because of the limit parameter.
