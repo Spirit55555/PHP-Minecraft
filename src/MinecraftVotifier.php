@@ -60,7 +60,7 @@ class MinecraftVotifier {
 
 		else {
 			//Script is run via CLI, use server name.
-			$address = $_SERVER['HOST_NAME'];
+			$address = $_SERVER['SERVER_NAME'];
 		}
 
 		$vote = sprintf(self::VOTE_FORMAT, $this->service_name, $username, $address, time());
