@@ -71,7 +71,7 @@ class MinecraftJsonColors {
 					$legacy .= $component;
 
 				else {
-					//reset the formatting to make the components independent
+					//Reset the formatting to make the components independent.
 					$legacy .= self::convertToLegacy($component).self::$color_char.self::$formatting['reset'];
 				}
 			}
@@ -79,7 +79,7 @@ class MinecraftJsonColors {
 
 		$legacy .= self::parseElement($json);
 
-		// If nothing was parsed until here, its an array of components.
+		//If nothing was parsed until here, it's an array of components.
 		if (empty($legacy) && is_array($json)) {
 			foreach ($json as $item)
 				$legacy .= self::convertToLegacy($item);
