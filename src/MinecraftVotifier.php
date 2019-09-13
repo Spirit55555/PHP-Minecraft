@@ -55,12 +55,12 @@ class MinecraftVotifier {
 	public function sendVote($username) {
 		if (php_sapi_name() !== 'cli') {
 			//Detect proxy and use correct IP.
-			$address = isset($_SERVER["HTTP_X_FORWARDED_FOR"]) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER['REMOTE_ADDR'];
+			$address = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 		}
 
 		else {
 			//Script is run via CLI, use server name.
-			$address = $_SERVER["HOST_NAME"];
+			$address = $_SERVER['HOST_NAME'];
 		}
 
 		$vote = sprintf(self::VOTE_FORMAT, $this->service_name, $username, $address, time());
