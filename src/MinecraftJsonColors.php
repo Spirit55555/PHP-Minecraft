@@ -22,7 +22,7 @@ namespace Spirit55555\Minecraft;
  * Based on http://wiki.vg/Chat
  */
 class MinecraftJsonColors {
-	const COLOR_CHAR = "§";
+	static private $color_char;
 
 	static private $colors = array(
 		'black'        => '0',
@@ -52,7 +52,9 @@ class MinecraftJsonColors {
 		'reset'         => 'r'
 	);
 
-	public static function convertToLegacy($json) {
+	public static function convertToLegacy($json, $color_char = '§') {
+		self::$color_char = $color_char;
+
 		$legacy = '';
 
 		if (isset($json['extra'])) {
@@ -62,7 +64,7 @@ class MinecraftJsonColors {
 
 				else {
 					//reset the formatting to make the components independent
-					$legacy .= self::convertToLegacy($component).self::COLOR_CHAR.self::$formatting['reset'];
+					$legacy .= self::convertToLegacy($component).self::$color_char.self::$formatting['reset'];
 				}
 			}
 		}
@@ -84,32 +86,32 @@ class MinecraftJsonColors {
 		if (isset($json['color'])) {
 			$color = $json['color'];
 			if (isset(self::$colors[$color]))
-				$legacy .= self::COLOR_CHAR.self::$colors[$color];
+				$legacy .= self::$color_char.self::$colors[$color];
 		}
 
 		if (isset($json['obfuscated'])) {
 			if ($json['obfuscated'])
-				$legacy .= self::COLOR_CHAR.self::$formatting['obfuscated'];
+				$legacy .= self::$color_char.self::$formatting['obfuscated'];
 		}
 
 		if (isset($json['strikethrough'])) {
 			if ($json['strikethrough'])
-				$legacy .= self::COLOR_CHAR.self::$formatting['strikethrough'];
+				$legacy .= self::$color_char.self::$formatting['strikethrough'];
 		}
 
 		if (isset($json['underlined'])) {
 			if ($json['underlined'])
-				$legacy .= self::COLOR_CHAR.self::$formatting['underline'];
+				$legacy .= self::$color_char.self::$formatting['underline'];
 		}
 
 		if (isset($json['italic'])) {
 			if ($json['italic'])
-				$legacy .= self::COLOR_CHAR.self::$formatting['italic'];
+				$legacy .= self::$color_char.self::$formatting['italic'];
 		}
 
 		if (isset($json['bold'])) {
 			if ($json['bold'])
-				$legacy .= self::COLOR_CHAR.self::$formatting['bold'];
+				$legacy .= self::$color_char.self::$formatting['bold'];
 		}
 
 		if (isset($json['text']))
