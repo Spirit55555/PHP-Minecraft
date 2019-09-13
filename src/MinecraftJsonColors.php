@@ -55,6 +55,14 @@ class MinecraftJsonColors {
 	public static function convertToLegacy($json, $color_char = '§') {
 		self::$color_char = $color_char;
 
+		if (is_string($json)) {
+			$json = json_decode($json, true);
+
+			//Just return, if JSON was invalid.
+			if (json_last_error() != JSON_ERROR_NONE)
+				return;
+		}
+
 		$legacy = '';
 
 		if (isset($json['extra'])) {
