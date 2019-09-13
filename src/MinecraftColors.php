@@ -21,8 +21,10 @@ namespace Spirit55555\Minecraft;
 class MinecraftColors {
 	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
 
-	const START_TAG  = '<span style="%s">';
+	const START_TAG_INLINE_STYLED  = '<span style="%s">';
+	const START_TAG_WITH_CLASS  = '<span class="%s">';
 	const CLOSE_TAG  = '</span>';
+
 	const CSS_COLOR  = 'color: #';
 	const EMPTY_TAGS = '/<[^\/>]*>([\s]?)*<\/[^>]*>/';
 	const LINE_BREAK = '<br />';
@@ -55,6 +57,30 @@ class MinecraftColors {
 		'r' => ''                                //Reset
 	);
 
+	static private $css_classnames = array(
+		'0' => 'black',
+		'1' => 'dark-blue',
+		'2' => 'dark-green',
+		'3' => 'dark-aqua',
+		'4' => 'dark-red',
+		'5' => 'dark-purple',
+		'6' => 'gold',
+		'7' => 'gray',
+		'8' => 'dark-gray',
+		'9' => 'blue',
+		'a' => 'green',
+		'b' => 'aqua',
+		'c' => 'red',
+		'd' => 'light-purple',
+		'e' => 'yellow',
+		'f' => 'white',
+		'k' => 'obfuscated',
+		'l' => 'bold',
+		'm' => 'line-strikethrough',
+		'n' => 'underline',
+		'o' => 'italic'
+	);
+
 	static private function UFT8Encode($text) {
 		//Encode the text in UTF-8, but only if it's not already.
 		if (mb_detect_encoding($text) != 'UTF-8')
@@ -80,7 +106,7 @@ class MinecraftColors {
 		return $text;
 	}
 
-	static public function convertToHTML($text, $line_break_element = false) {
+	static public function convertToHTML($text, $line_break_element = false, $css_classes = false, $css_prefix = 'minecraft-formatted--') {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
 
@@ -98,44 +124,36 @@ class MinecraftColors {
 		foreach ($colors as $index => $color) {
 			$color_code = strtolower($color_codes[$index]);
 
-			//We have a normal color.
-			if (isset(self::$colors[$color_code])) {
-				$html = sprintf(self::START_TAG, self::CSS_COLOR.self::$colors[$color_code]);
+			$html = '';
 
-				//New color clears the other colors and formatting.
+			$is_reset = $color_code === 'r';
+			$is_color = isset(self::$colors[$color_code]);
+
+			if ($is_reset || $is_color) {
+				// New colors or the reset char: reset all other colors and formatting.
 				if ($open_tags != 0) {
-					$html = str_repeat(self::CLOSE_TAG, $open_tags).$html;
+					$html = str_repeat(self::CLOSE_TAG, $open_tags);
 					$open_tags = 0;
 				}
-
-				$open_tags++;
 			}
 
-			//We have some formatting.
-			else {
-				switch ($color_code) {
-					//Reset is special, just close all open tags.
-					case 'r':
-						$html = '';
+			if ($css_classes) {
+				if (!$is_reset) {
+					$cssClassname = $css_prefix . self::$css_classnames[$color_code];
+					$html .= sprintf(self::START_TAG_WITH_CLASS, $cssClassname);
+					$open_tags++;
+				}
+			} else {
+				if ($is_color) {
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR . self::$colors[$color_code]);
+					$open_tags++;
 
-						if ($open_tags != 0) {
-							$html = str_repeat(self::CLOSE_TAG, $open_tags);
-							$open_tags = 0;
-						}
+				} else if ($color_code === 'k') {
+					$html = '';
 
-						break;
-
-					//Can't do obfuscated in CSS...
-					case 'k':
-						$html = '';
-
-						break;
-
-					default:
-						$html = sprintf(self::START_TAG, self::$formatting[$color_code]);
-						$open_tags++;
-
-						break;
+				} else if (!$is_reset) {
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::$formatting[$color_code]);
+					$open_tags++;
 				}
 			}
 
