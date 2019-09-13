@@ -9,7 +9,10 @@
         "source": "https://github.com/Spirit55555/PHP-Minecraft"
     },
     "require": {
-        "php": ">=7.1"
+		"php": ">=7.1",
+		"ext-mbstring": "*",
+		"ext-openssl": "*"
+
     },
     "license": "GPL-3.0-or-later",
     "autoload": {
