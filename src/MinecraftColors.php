@@ -21,9 +21,9 @@ namespace Spirit55555\Minecraft;
 class MinecraftColors {
 	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
 
-	const START_TAG_INLINE_STYLED  = '<span style="%s">';
-	const START_TAG_WITH_CLASS  = '<span class="%s">';
-	const CLOSE_TAG  = '</span>';
+	const START_TAG_INLINE_STYLED = '<span style="%s">';
+	const START_TAG_WITH_CLASS = '<span class="%s">';
+	const CLOSE_TAG = '</span>';
 
 	const CSS_COLOR  = 'color: #';
 	const EMPTY_TAGS = '/<[^\/>]*>([\s]?)*<\/[^>]*>/';
@@ -139,19 +139,22 @@ class MinecraftColors {
 
 			if ($css_classes) {
 				if (!$is_reset) {
-					$cssClassname = $css_prefix . self::$css_classnames[$color_code];
+					$cssClassname = $css_prefix.self::$css_classnames[$color_code];
 					$html .= sprintf(self::START_TAG_WITH_CLASS, $cssClassname);
 					$open_tags++;
 				}
-			} else {
-				if ($is_color) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR . self::$colors[$color_code]);
-					$open_tags++;
+			}
 
-				} else if ($color_code === 'k') {
+			else {
+				if ($is_color) {
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.self::$colors[$color_code]);
+					$open_tags++;
+				}
+
+				else if ($color_code === 'k')
 					$html = '';
 
-				} else if (!$is_reset) {
+				else if (!$is_reset) {
 					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::$formatting[$color_code]);
 					$open_tags++;
 				}
