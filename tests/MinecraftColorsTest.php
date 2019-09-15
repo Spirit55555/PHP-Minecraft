@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
+use \Spirit55555\Minecraft\MinecraftColors;
 
 final class MinecraftColorsTest extends TestCase {
 	public function testclean(): void {
