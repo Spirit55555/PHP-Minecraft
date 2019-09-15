@@ -1,4 +1,4 @@
-# PHP-Minecraft
+# PHP-Minecraft [![Build Status](https://travis-ci.com/Spirit55555/PHP-Minecraft.svg?branch=master)](https://travis-ci.com/Spirit55555/PHP-Minecraft)
 ## Useful PHP classes for Minecraft
 
 ### Using Composer?
