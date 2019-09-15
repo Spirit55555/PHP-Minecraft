@@ -2,3 +2,4 @@
 /vendor/
 composer.lock
 # Composer.lock should normally be included but is not recommended for libraries
+.phpunit.result.cache
