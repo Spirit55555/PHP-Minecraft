@@ -1,25 +1,29 @@
 {
-    "name": "spirit55555/php-minecraft",
-    "keywords": ["minecraft", "votifier", "chat"],
-    "description": "Useful PHP classes for Minecraft",
-    "type": "library",
-    "homepage": "https://github.com/Spirit55555/PHP-Minecraft/",
-    "support": {
-        "issues": "https://github.com/Spirit55555/PHP-Minecraft/issues",
-        "source": "https://github.com/Spirit55555/PHP-Minecraft"
-    },
-    "require": {
+	"name": "spirit55555/php-minecraft",
+	"keywords": [
+		"minecraft",
+		"votifier",
+		"chat"
+	],
+	"description": "Useful PHP classes for Minecraft",
+	"type": "library",
+	"homepage": "https://github.com/Spirit55555/PHP-Minecraft/",
+	"support": {
+		"issues": "https://github.com/Spirit55555/PHP-Minecraft/issues",
+		"source": "https://github.com/Spirit55555/PHP-Minecraft"
+	},
+	"require": {
 		"php": ">=7.2",
 		"ext-mbstring": "*",
 		"ext-openssl": "*"
-    },
+	},
 	"require-dev": {
 		"phpunit/phpunit": "^8"
 	},
-    "license": "GPL-3.0-or-later",
-    "autoload": {
-        "psr-4": {
-            "Spirit55555\\Minecraft\\": "src"
-        }
-    }
+	"license": "GPL-3.0-or-later",
+	"autoload": {
+		"psr-4": {
+			"Spirit55555\\Minecraft\\": "src"
+		}
+	}
 }
