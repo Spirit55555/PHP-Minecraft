@@ -91,36 +91,23 @@ class MinecraftJsonColors {
 	private static function parseElement($json) {
 		$legacy = '';
 
-		if (isset($json['color'])) {
-			$color = $json['color'];
-			if (isset(self::$colors[$color]))
-				$legacy .= self::$color_char.self::$colors[$color];
-		}
+		if (isset($json['color']) && isset(self::$colors[$json['color']]))
+			$legacy .= self::$color_char.self::$colors[$json['color']];
 
-		if (isset($json['obfuscated'])) {
-			if ($json['obfuscated'])
-				$legacy .= self::$color_char.self::$formatting['obfuscated'];
-		}
+		if (isset($json['obfuscated']) && $json['obfuscated'])
+			$legacy .= self::$color_char.self::$formatting['obfuscated'];
 
-		if (isset($json['strikethrough'])) {
-			if ($json['strikethrough'])
-				$legacy .= self::$color_char.self::$formatting['strikethrough'];
-		}
+		if (isset($json['strikethrough']) && $json['strikethrough'])
+			$legacy .= self::$color_char.self::$formatting['strikethrough'];
 
-		if (isset($json['underlined'])) {
-			if ($json['underlined'])
-				$legacy .= self::$color_char.self::$formatting['underline'];
-		}
+		if (isset($json['underlined']) && $json['underlined'])
+			$legacy .= self::$color_char.self::$formatting['underline'];
 
-		if (isset($json['italic'])) {
-			if ($json['italic'])
-				$legacy .= self::$color_char.self::$formatting['italic'];
-		}
+		if (isset($json['italic']) && $json['italic'])
+			$legacy .= self::$color_char.self::$formatting['italic'];
 
-		if (isset($json['bold'])) {
-			if ($json['bold'])
-				$legacy .= self::$color_char.self::$formatting['bold'];
-		}
+		if (isset($json['bold']) && $json['bold'])
+			$legacy .= self::$color_char.self::$formatting['bold'];
 
 		if (isset($json['text']))
 			$legacy .= $json['text'];
