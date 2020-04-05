@@ -1,5 +1,37 @@
-/nbproject/private/
+# Created by https://www.gitignore.io/api/phpunit,composer,visualstudiocode
+# Edit at https://www.gitignore.io/?templates=phpunit,composer,visualstudiocode
+
+### Composer ###
+composer.phar
 /vendor/
+
+# Commit your application's lock file https://getcomposer.org/doc/01-basic-usage.md#commit-your-composer-lock-file-to-version-control
+# You may choose to ignore a library lock file http://getcomposer.org/doc/02-libraries.md#lock-file
 composer.lock
-# Composer.lock should normally be included but is not recommended for libraries
+
+### PHPUnit ###
+# Covers PHPUnit
+# Reference: https://phpunit.de/
+
+# Generated files
 .phpunit.result.cache
+
+# PHPUnit
+/app/phpunit.xml
+/phpunit.xml
+
+# Build data
+/build/
+
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+
+# End of https://www.gitignore.io/api/phpunit,composer,visualstudiocode
