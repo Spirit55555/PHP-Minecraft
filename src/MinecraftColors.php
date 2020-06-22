@@ -151,8 +151,12 @@ class MinecraftColors {
 					$open_tags++;
 				}
 
-				else if ($color_code === 'k')
-					$html = '';
+				//Special case for obfuscated, always add a CSS class for this.
+				else if ($color_code === 'k') {
+					$css_classname = $css_prefix.self::$css_classnames[$color_code];
+					$html .= sprintf(self::START_TAG_WITH_CLASS, $css_classname);
+					$open_tags++;
+				}
 
 				else if (!$is_reset) {
 					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::$formatting[$color_code]);
