@@ -139,8 +139,8 @@ class MinecraftColors {
 
 			if ($css_classes) {
 				if (!$is_reset) {
-					$cssClassname = $css_prefix.self::$css_classnames[$color_code];
-					$html .= sprintf(self::START_TAG_WITH_CLASS, $cssClassname);
+					$css_classname = $css_prefix.self::$css_classnames[$color_code];
+					$html .= sprintf(self::START_TAG_WITH_CLASS, $css_classname);
 					$open_tags++;
 				}
 			}
