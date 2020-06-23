@@ -11,12 +11,12 @@ final class MinecraftColorsTest extends TestCase {
 	}
 
 	public function testConvertToHTML(): void {
-		$text = "§4Lorem §3§lipsum\n§rdolor &nsit &c&mamet";
+		$text = "§4Lorem §3§lipsum\n§rdolor &nsit &c&kamet";
 
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span>'."\n".'dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span style="text-decoration: line-through;">amet</span></span>', MinecraftColors::convertToHTML($text));
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span><br />dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span style="text-decoration: line-through;">amet</span></span>', MinecraftColors::convertToHTML($text, true));
-		$this->assertSame('<span class="minecraft-formatted--dark-red">Lorem </span><span class="minecraft-formatted--dark-aqua"><span class="minecraft-formatted--bold">ipsum</span></span><br />dolor <span class="minecraft-formatted--underline">sit </span><span class="minecraft-formatted--red"><span class="minecraft-formatted--line-strikethrough">amet</span></span>', MinecraftColors::convertToHTML($text, true, true));
-		$this->assertSame('<span class="mc-motd--dark-red">Lorem </span><span class="mc-motd--dark-aqua"><span class="mc-motd--bold">ipsum</span></span><br />dolor <span class="mc-motd--underline">sit </span><span class="mc-motd--red"><span class="mc-motd--line-strikethrough">amet</span></span>', MinecraftColors::convertToHTML($text, true, true, 'mc-motd--'));
+		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span>'."\n".'dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text));
+		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span><br />dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text, true));
+		$this->assertSame('<span class="minecraft-formatted--dark-red">Lorem </span><span class="minecraft-formatted--dark-aqua"><span class="minecraft-formatted--bold">ipsum</span></span><br />dolor <span class="minecraft-formatted--underline">sit </span><span class="minecraft-formatted--red"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text, true, true));
+		$this->assertSame('<span class="mc-motd--dark-red">Lorem </span><span class="mc-motd--dark-aqua"><span class="mc-motd--bold">ipsum</span></span><br />dolor <span class="mc-motd--underline">sit </span><span class="mc-motd--red"><span class="mc-motd--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text, true, true, 'mc-motd--'));
 	}
 
 	public function testConvertToMOTD(): void {
