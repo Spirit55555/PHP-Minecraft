@@ -172,11 +172,13 @@ class MinecraftColors {
 		if ($open_tags != 0)
 			$text = $text.str_repeat(self::CLOSE_TAG, $open_tags);
 
+		//Move newline endings outside elements.
+		while (strpos($text, "\n".self::CLOSE_TAG) !== false)
+			$text = str_replace("\n".self::CLOSE_TAG, self::CLOSE_TAG."\n", $text);
+
 		//Replace \n with <br />
-		if ($line_break_element) {
-			$text = str_replace("\n", self::LINE_BREAK, $text);
-			$text = str_replace('\n', self::LINE_BREAK, $text);
-		}
+		if ($line_break_element)
+			$text = str_replace(array('\n', "\n"), self::LINE_BREAK, $text);
 
 		//Return the text without empty HTML tags. Only to clean up bad color formatting from the user.
 		return preg_replace(self::EMPTY_TAGS, '', $text);
