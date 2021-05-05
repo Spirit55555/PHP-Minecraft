@@ -5,12 +5,13 @@ use \Spirit55555\Minecraft\MinecraftJsonColors;
 
 final class MinecraftJsonColorsTest extends TestCase {
 	public function testConvertToLegacy(): void {
-		$first_component = ["text" => "first "];
-		$second_component = ["text" => "second ", "color" => "red", ""];
-		$third_component = ["text" => "third ", "strikethrough" => true];
-		$json = ["extra" => [$first_component, $second_component, $third_component]];
+		$components[] = ["text" => "first "];
+		$components[] = ["text" => "second ", "color" => "red", ""];
+		$components[] = ["text" => "third ", "strikethrough" => true];
+		$components[] = ["text" => "forth ", "color" => '#AA0000'];
+		$json = ["extra" => $components];
 
-		$this->assertSame('first §r§csecond §r§mthird §r', MinecraftJsonColors::convertToLegacy($json));
+		$this->assertSame('first §r§csecond §r§mthird §r§#AA0000forth §r', MinecraftJsonColors::convertToLegacy($json));
 	}
 }
 ?>
