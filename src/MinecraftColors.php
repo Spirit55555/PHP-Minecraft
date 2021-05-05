@@ -20,6 +20,8 @@ namespace Spirit55555\Minecraft;
 
 class MinecraftColors {
 	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
+	const REGEX_HEX = '/(?:§|&amp;)(#[0-9a-z]{6})/i';
+	const REGEX_ALL = '/(?:§|&amp;)([0-9a-fklmnor]|#[0-9a-z]{6})/i';
 
 	const START_TAG_INLINE_STYLED = '<span style="%s">';
 	const START_TAG_WITH_CLASS = '<span class="%s">';
@@ -93,13 +95,30 @@ class MinecraftColors {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
 
-		return preg_replace(self::REGEX, '', $text);
+		return preg_replace(self::REGEX_ALL, '', $text);
 	}
 
-	static public function convertToMOTD($text, $sign = '\u00A7') {
+	static public function convertToMOTD($text, $sign = '\u00A7', $hex_colors = false) {
 		$text = self::UFT8Encode($text);
 		$text = str_replace("&", "&amp;", $text);
-		$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+
+		if ($hex_colors) {
+			$text = preg_replace_callback(
+				self::REGEX_HEX,
+				function($matches) use ($sign) {
+					return $sign.strtoupper($matches[1]);
+				},
+				$text
+			);
+
+			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+		}
+
+		else {
+			$text = preg_replace(self::REGEX_HEX, '', $text);
+			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+		}
+
 		$text = str_replace("\n", '\n', $text);
 		$text = str_replace("&amp;", "&", $text);
 
@@ -110,7 +129,7 @@ class MinecraftColors {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
 
-		preg_match_all(self::REGEX, $text, $offsets);
+		preg_match_all(self::REGEX_ALL, $text, $offsets);
 
 		$colors      = $offsets[0]; //This is what we are going to replace with HTML.
 		$color_codes = $offsets[1]; //This is the color numbers/characters only.
@@ -128,8 +147,9 @@ class MinecraftColors {
 
 			$is_reset = $color_code === 'r';
 			$is_color = isset(self::$colors[$color_code]);
+			$is_hex = strlen($color_code) === 7; //#RRGGBB
 
-			if ($is_reset || $is_color) {
+			if ($is_reset || $is_color || $is_hex) {
 				// New colors or the reset char: reset all other colors and formatting.
 				if ($open_tags != 0) {
 					$html = str_repeat(self::CLOSE_TAG, $open_tags);
@@ -137,8 +157,14 @@ class MinecraftColors {
 				}
 			}
 
-			if ($css_classes) {
-				if (!$is_reset) {
+			if ($css_classes && !$is_reset) {
+				//No reason to give HEX colors a CSS class.
+				if ($is_hex) {
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
+					$open_tags++;
+				}
+
+				else {
 					$css_classname = $css_prefix.self::$css_classnames[$color_code];
 					$html .= sprintf(self::START_TAG_WITH_CLASS, $css_classname);
 					$open_tags++;
@@ -148,6 +174,11 @@ class MinecraftColors {
 			else {
 				if ($is_color) {
 					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.self::$colors[$color_code]);
+					$open_tags++;
+				}
+
+				else if ($is_hex) {
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
 					$open_tags++;
 				}
 

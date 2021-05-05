@@ -91,6 +91,10 @@ class MinecraftJsonColors {
 	private static function parseElement($json) {
 		$legacy = '';
 
+		//Minecraft 1.16+ added support for RGB/HEX colors.
+		if (isset($json['color']) && preg_match('/^#[0-9a-z]{6}$/i', $json['color']))
+			$legacy .= self::$color_char.$json['color'];
+
 		if (isset($json['color']) && isset(self::$colors[$json['color']]))
 			$legacy .= self::$color_char.self::$colors[$json['color']];
 
