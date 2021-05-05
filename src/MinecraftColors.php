@@ -102,12 +102,23 @@ class MinecraftColors {
 		$text = self::UFT8Encode($text);
 		$text = str_replace("&", "&amp;", $text);
 
-		if ($hex_colors)
-			$text = preg_replace(self::REGEX_HEX, $sign.'${1}', $text);
-		else
-			$text = preg_replace(self::REGEX_HEX, '', $text);
+		if ($hex_colors) {
+			$text = preg_replace_callback(
+				self::REGEX_HEX,
+				function($matches) use ($sign) {
+					return $sign.strtoupper($matches[1]);
+				},
+				$text
+			);
 
-		$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+		}
+
+		else {
+			$text = preg_replace(self::REGEX_HEX, '', $text);
+			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+		}
+
 		$text = str_replace("\n", '\n', $text);
 		$text = str_replace("&amp;", "&", $text);
 
