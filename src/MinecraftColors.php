@@ -149,7 +149,7 @@ class MinecraftColors {
 			if ($css_classes && !$is_reset) {
 				//No reason to give HEX colors a CSS class.
 				if ($is_hex) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.ltrim($color_code, '#'));
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
 					$open_tags++;
 				}
 
@@ -167,7 +167,7 @@ class MinecraftColors {
 				}
 
 				else if ($is_hex) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.ltrim($color_code, '#'));
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
 					$open_tags++;
 				}
 
