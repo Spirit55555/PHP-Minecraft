@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 use PHPUnit\Framework\TestCase;
-use \Spirit55555\Minecraft\MinecraftJsonColors;
+use \Spirit55555\Minecraft\MinecraftJSONColors;
 
-final class MinecraftJsonColorsTest extends TestCase {
+final class MinecraftJSONColorsTest extends TestCase {
 	public function testConvertToLegacy(): void {
 		$components[] = ["text" => "first "];
 		$components[] = ["text" => "second ", "color" => "red", ""];
@@ -11,7 +11,7 @@ final class MinecraftJsonColorsTest extends TestCase {
 		$components[] = ["text" => "forth ", "color" => '#AA0000'];
 		$json = ["extra" => $components];
 
-		$this->assertSame('first §r§csecond §r§mthird §r§#AA0000forth §r', MinecraftJsonColors::convertToLegacy($json));
+		$this->assertSame('first §r§csecond §r§mthird §r§#AA0000forth §r', MinecraftJSONColors::convertToLegacy($json));
 	}
 }
 ?>

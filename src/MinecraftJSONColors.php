@@ -21,7 +21,7 @@ namespace Spirit55555\Minecraft;
 /**
  * Based on http://wiki.vg/Chat
  */
-class MinecraftJsonColors {
+class MinecraftJSONColors {
 	static private $color_char;
 
 	static private $colors = array(
