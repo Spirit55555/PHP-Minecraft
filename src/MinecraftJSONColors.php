@@ -24,9 +24,10 @@ namespace Spirit55555\Minecraft;
  * Based on http://wiki.vg/Chat
  */
 class MinecraftJSONColors {
-	static private $color_char;
+	static private string $color_char;
+	static private bool $hex_colors;
 
-	static private $colors = array(
+	static private array $colors = array(
 		'black'        => '0',
 		'dark_blue'    => '1',
 		'dark_green'   => '2',
@@ -45,7 +46,7 @@ class MinecraftJSONColors {
 		'white'        => 'f'
 	);
 
-	static private $formatting = array(
+	static private array $formatting = array(
 		'obfuscated'    => 'k',
 		'bold'          => 'l',
 		'strikethrough' => 'm',
@@ -54,8 +55,9 @@ class MinecraftJSONColors {
 		'reset'         => 'r'
 	);
 
-	public static function convertToLegacy($json, string $color_char = '§', $hex_colors = false): string {
+	public static function convertToLegacy($json, string $color_char = '§', bool $hex_colors = false): string {
 		self::$color_char = $color_char;
+		self::$hex_colors = $hex_colors;
 
 		if (is_string($json)) {
 			$json = json_decode($json, true);
@@ -93,8 +95,8 @@ class MinecraftJSONColors {
 	private static function parseElement(array $json): string {
 		$legacy = '';
 
-		//Minecraft 1.16+ added support for RGB/HEX colors.
-		if (isset($json['color']) && preg_match('/^#[0-9a-z]{6}$/i', $json['color']))
+		//Minecraft 1.16+ added support for RGB/HEX colors. Only parse it when enabled.
+		if (isset($json['color']) && self::$hex_colors && preg_match('/^#[0-9a-z]{6}$/i', $json['color']))
 			$legacy .= self::$color_char.$json['color'];
 
 		if (isset($json['color']) && isset(self::$colors[$json['color']]))
