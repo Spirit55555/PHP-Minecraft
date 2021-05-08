@@ -20,6 +20,9 @@ declare(strict_types=1);
 
 namespace Spirit55555\Minecraft;
 
+/**
+ * Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
+ */
 class MinecraftColors {
 	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
 	const REGEX_HEX = '/(?:§|&amp;)(#[0-9a-z]{6})/i';
@@ -33,6 +36,11 @@ class MinecraftColors {
 	const EMPTY_TAGS = '/<[^\/>]*>([\s]?)*<\/[^>]*>/';
 	const LINE_BREAK = '<br />';
 
+	/**
+	 * Color codes mapped to HEX colors.
+	 *
+	 * @var array
+	 */
 	static private $colors = array(
 		'0' => '000000', //Black
 		'1' => '0000AA', //Dark Blue
@@ -52,6 +60,12 @@ class MinecraftColors {
 		'f' => 'FFFFFF'  //White
 	);
 
+	/**
+	 * Formatting codes mapped to CSS style.
+	 * Some codes intentionally have no CSS.
+	 *
+	 * @var array
+	 */
 	static private $formatting = array(
 		'k' => '',                               //Obfuscated
 		'l' => 'font-weight: bold;',             //Bold
@@ -61,6 +75,11 @@ class MinecraftColors {
 		'r' => ''                                //Reset
 	);
 
+	/**
+	 * Colors and formatting codes mapped to CSS classes.
+	 *
+	 * @var array
+	 */
 	static private $css_classnames = array(
 		'0' => 'black',
 		'1' => 'dark-blue',
@@ -85,6 +104,12 @@ class MinecraftColors {
 		'o' => 'italic'
 	);
 
+	/**
+	 * Encode text in UTF-8.
+	 *
+	 * @param  mixed $text
+	 * @return string
+	 */
 	static private function UFT8Encode(string $text): string {
 		//Encode the text in UTF-8, but only if it's not already.
 		if (mb_detect_encoding($text) != 'UTF-8')
@@ -93,6 +118,12 @@ class MinecraftColors {
 		return $text;
 	}
 
+	/**
+	 * Clean a string from all colors and formatting codes.
+	 *
+	 * @param  string $text
+	 * @return string
+	 */
 	static public function clean(string $text): string {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
@@ -100,6 +131,14 @@ class MinecraftColors {
 		return preg_replace(self::REGEX_ALL, '', $text);
 	}
 
+	/**
+	 * Convert a string to a MOTD format.
+	 *
+	 * @param  string $text
+	 * @param  string $sign The text to prepend all color codes.
+	 * @param  bool   $hex_colors Should HEX colors be converted as well? If not, they will be removed.
+	 * @return string
+	 */
 	static public function convertToMOTD(string $text, string $sign = '\u00A7', bool $hex_colors = false): string {
 		$text = self::UFT8Encode($text);
 		$text = str_replace("&", "&amp;", $text);
@@ -127,6 +166,15 @@ class MinecraftColors {
 		return $text;
 	}
 
+	/**
+	 * Convert a string to HTML.
+	 *
+	 * @param  string $text
+	 * @param  bool   $line_break_element Should new lines be converted to br tags?
+	 * @param  bool   $css_classes Should CSS classes be used instead of inline styes?
+	 * @param  string $css_prefix The prefix for CSS classes.
+	 * @return string
+	 */
 	static public function convertToHTML(string $text, bool $line_break_element = false, bool $css_classes = false, string $css_prefix = 'minecraft-formatted--'): string {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);

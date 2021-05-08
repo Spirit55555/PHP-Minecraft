@@ -21,12 +21,19 @@ declare(strict_types=1);
 namespace Spirit55555\Minecraft;
 
 /**
+ * Convert Minecraft JSON text to legacy format.
+ *
  * Based on http://wiki.vg/Chat
  */
 class MinecraftJSONColors {
 	static private $color_char;
 	static private $hex_colors;
 
+	/**
+	 * Color names types mapped to legacy codes.
+	 *
+	 * @var array
+	 */
 	static private $colors = array(
 		'black'        => '0',
 		'dark_blue'    => '1',
@@ -46,6 +53,11 @@ class MinecraftJSONColors {
 		'white'        => 'f'
 	);
 
+	/**
+	 * Formatting names mapped to legacy codes.
+	 *
+	 * @var array
+	 */
 	static private $formatting = array(
 		'obfuscated'    => 'k',
 		'bold'          => 'l',
@@ -55,6 +67,14 @@ class MinecraftJSONColors {
 		'reset'         => 'r'
 	);
 
+	/**
+	 * Convert Minecraft JSON text to legacy format.
+	 *
+	 * @param  string|array $json JSON as a string or an array.
+	 * @param  string       $color_char The text to prepend all color codes.
+	 * @param  bool         $hex_colors Should HEX colors be converted as well? If not, they will be skipped.
+	 * @return string
+	 */
 	public static function convertToLegacy($json, string $color_char = '§', bool $hex_colors = false): string {
 		self::$color_char = $color_char;
 		self::$hex_colors = $hex_colors;
@@ -92,6 +112,12 @@ class MinecraftJSONColors {
 		return $legacy;
 	}
 
+	/**
+	 * Parse an array to a legacy string with color codes.
+	 *
+	 * @param  array $json
+	 * @return string
+	 */
 	private static function parseElement(array $json): string {
 		$legacy = '';
 
