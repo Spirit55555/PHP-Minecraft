@@ -29,7 +29,9 @@ final class MinecraftJSONColorsTest extends TestCase {
 		$components[] = ["text" => "forth ", "color" => '#AA0000'];
 		$json = ["extra" => $components];
 
-		$this->assertSame('first §r§csecond §r§mthird §r§#AA0000forth §r', MinecraftJSONColors::convertToLegacy($json));
+		$this->assertSame('first §r§csecond §r§mthird §rforth §r', MinecraftJSONColors::convertToLegacy($json));
+		$this->assertSame('first &r&csecond &r&mthird &rforth &r', MinecraftJSONColors::convertToLegacy($json, '&'));
+		$this->assertSame('first §r§csecond §r§mthird §r§#AA0000forth §r', MinecraftJSONColors::convertToLegacy($json, '§', true));
 	}
 }
 ?>
