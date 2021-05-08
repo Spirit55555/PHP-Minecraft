@@ -16,6 +16,8 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+declare(strict_types=1);
+
 namespace Spirit55555\Minecraft;
 
 class MinecraftColors {
@@ -83,7 +85,7 @@ class MinecraftColors {
 		'o' => 'italic'
 	);
 
-	static private function UFT8Encode($text) {
+	static private function UFT8Encode(string $text): string {
 		//Encode the text in UTF-8, but only if it's not already.
 		if (mb_detect_encoding($text) != 'UTF-8')
 			$text = utf8_encode($text);
@@ -91,14 +93,14 @@ class MinecraftColors {
 		return $text;
 	}
 
-	static public function clean($text) {
+	static public function clean(string $text): string {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
 
 		return preg_replace(self::REGEX_ALL, '', $text);
 	}
 
-	static public function convertToMOTD($text, $sign = '\u00A7', $hex_colors = false) {
+	static public function convertToMOTD(string $text, string $sign = '\u00A7', bool $hex_colors = false): string {
 		$text = self::UFT8Encode($text);
 		$text = str_replace("&", "&amp;", $text);
 
@@ -125,7 +127,7 @@ class MinecraftColors {
 		return $text;
 	}
 
-	static public function convertToHTML($text, $line_break_element = false, $css_classes = false, $css_prefix = 'minecraft-formatted--') {
+	static public function convertToHTML(string $text, bool $line_break_element = false, bool $css_classes = false, string $css_prefix = 'minecraft-formatted--'): string {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
 

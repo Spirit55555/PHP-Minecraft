@@ -16,6 +16,8 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+declare(strict_types=1);
+
 namespace Spirit55555\Minecraft;
 
 class MinecraftVotifier {
@@ -27,32 +29,32 @@ class MinecraftVotifier {
 	private $port;
 	private $service_name;
 
-	public function __construct($public_key = null, $server_ip = null, $port = 8192, $service_name = null) {
+	public function __construct(string $public_key = null, string $server_ip = null, int $port = 8192, string $service_name = null) {
 		$this->public_key   = $this->formatPublicKey($public_key);
 		$this->server_ip    = $server_ip;
 		$this->port         = $port;
 		$this->service_name = $service_name;
 	}
 
-	public function __get($name) {
+	public function __get(string $name) {
 		return isset($this->$name) ? $this->$name : null;
 	}
 
-	public function __set($name, $value) {
+	public function __set(string $name, $value): void {
 		if ($name == 'public_key')
 			$this->public_key = $this->formatPublicKey($value);
 		else
 			$this->$name = $value;
 	}
 
-	private function formatPublicKey($public_key) {
+	private function formatPublicKey(string $public_key): string {
 		$public_key = wordwrap($public_key, 65, "\n", true);
 		$public_key = sprintf(self::PUBLIC_KEY_FORMAT, $public_key);
 
 		return $public_key;
 	}
 
-	public function sendVote($username) {
+	public function sendVote(string $username): bool {
 		if (php_sapi_name() !== 'cli') {
 			//Detect proxy and use correct IP.
 			$address = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];

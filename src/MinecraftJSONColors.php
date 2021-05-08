@@ -16,6 +16,8 @@
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+declare(strict_types=1);
+
 namespace Spirit55555\Minecraft;
 
 /**
@@ -52,7 +54,7 @@ class MinecraftJSONColors {
 		'reset'         => 'r'
 	);
 
-	public static function convertToLegacy($json, $color_char = '§') {
+	public static function convertToLegacy($json, string $color_char = '§'): string {
 		self::$color_char = $color_char;
 
 		if (is_string($json)) {
@@ -88,7 +90,7 @@ class MinecraftJSONColors {
 		return $legacy;
 	}
 
-	private static function parseElement($json) {
+	private static function parseElement(array $json): string {
 		$legacy = '';
 
 		//Minecraft 1.16+ added support for RGB/HEX colors.
