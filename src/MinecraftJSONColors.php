@@ -27,7 +27,7 @@ class MinecraftJSONColors {
 	static private $color_char;
 	static private $hex_colors;
 
-	static private array $colors = array(
+	static private $colors = array(
 		'black'        => '0',
 		'dark_blue'    => '1',
 		'dark_green'   => '2',
@@ -46,7 +46,7 @@ class MinecraftJSONColors {
 		'white'        => 'f'
 	);
 
-	static private array $formatting = array(
+	static private $formatting = array(
 		'obfuscated'    => 'k',
 		'bold'          => 'l',
 		'strikethrough' => 'm',
