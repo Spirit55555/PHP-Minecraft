@@ -79,7 +79,7 @@ class MinecraftJSONColors {
 		self::$color_char = $color_char;
 		self::$hex_colors = $hex_colors;
 
-		if (is_string($json)) {
+		if (!empty($json) && is_string($json)) {
 			$json = json_decode($json, true);
 
 			//Just return an empty string, if JSON was invalid.
@@ -101,7 +101,8 @@ class MinecraftJSONColors {
 			}
 		}
 
-		$legacy .= self::parseElement($json);
+		if (is_array($json))
+			$legacy .= self::parseElement($json);
 
 		//If nothing was parsed until here, it's an array of components.
 		if (empty($legacy) && is_array($json)) {
