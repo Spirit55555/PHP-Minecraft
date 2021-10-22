@@ -45,6 +45,11 @@ final class MinecraftColorsTest extends TestCase {
 		$this->assertSame('<span style="color: #AA0000">Lorem </span><span class="mc-motd--dark-aqua"><span class="mc-motd--bold">ipsum</span></span><br />dolor <span class="mc-motd--underline">sit </span><span style="color: #FF5555"><span class="mc-motd--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex, true, true, 'mc-motd--'));
 	}
 
+	public function testConvertToHTMLEmptyTags(): void {
+		$text = '§7     §4Lorem §3§lipsum§7     ';
+		$this->assertSame('<span style="color: #AAAAAA">     </span><span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span><span style="color: #AAAAAA">     </span>', MinecraftColors::convertToHTML($text));
+	}
+
 	public function testConvertToMOTD(): void {
 		$text = '§4Lorem §3§lipsum §rdolor &nsit &c&mamet';
 		$text_hex = "§#aa0000Lorem §3§lipsum §rdolor &nsit &#ff5555&mamet";

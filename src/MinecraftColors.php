@@ -33,7 +33,7 @@ class MinecraftColors {
 	const CLOSE_TAG = '</span>';
 
 	const CSS_COLOR  = 'color: #';
-	const EMPTY_TAGS = '/<[^\/>]*>([\s]?)*<\/[^>]*>/';
+	const EMPTY_TAGS = '/<[^\/>]*><\/[^>]*>/';
 	const LINE_BREAK = '<br />';
 
 	/**
