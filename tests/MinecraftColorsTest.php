@@ -31,8 +31,8 @@ final class MinecraftColorsTest extends TestCase {
 	}
 
 	public function testConvertToHTML(): void {
-		$text = '§4Lorem §3§lipsum\n§rdolor &nsit &c&kamet';
-		$text_hex = '§#AA0000Lorem §3§lipsum\n§rdolor &nsit &#FF5555&kamet';
+		$text = '§4Lorem §3§lipsum'."\n".'§rdolor &nsit &c&kamet';
+		$text_hex = '§#AA0000Lorem §3§lipsum'."\n".'§rdolor &nsit &#FF5555&kamet';
 
 		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span>'."\n".'dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text));
 		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span><br />dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text, true));
