@@ -71,10 +71,10 @@ Converts  Minecraft JSON (http://wiki.vg/Chat) text to legacy format ('§aHello'
 require 'vendor/autoload.php';
 use \Spirit55555\Minecraft\MinecraftJSONColors;
 
-$first_component = ["text" => "first "];
-$second_component = ["text" => "second ", "color" => "red", ""];
-$third_component = ["text" => "third ", "strikethrough" => true];
-$json = ["extra" => [$first_component, $second_component, $third_component]];
+$first_component = ['text' => 'first '];
+$second_component = ['text' => 'second ', 'color' => 'red'];
+$third_component = ['text' => 'third ', 'strikethrough' => true];
+$json = ['extra' => [$first_component, $second_component, $third_component]];
 
 echo MinecraftJSONColors::convertToLegacy($json);
 ?>
