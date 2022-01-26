@@ -89,20 +89,19 @@ class MinecraftJSONColors {
 
 		$legacy = '';
 
+		if (is_array($json)) {
+			//Reset the formatting to make the components independent.
+			$legacy .= self::parseElement($json).self::$color_char.self::$formatting['reset'];
+		}
+
 		if (isset($json['extra'])) {
 			foreach ($json['extra'] as $component) {
 				if (is_string($component))
 					$legacy .= $component;
-
-				else {
-					//Reset the formatting to make the components independent.
-					$legacy .= self::convertToLegacy($component, self::$color_char, self::$hex_colors).self::$color_char.self::$formatting['reset'];
-				}
+				else
+					$legacy .= self::convertToLegacy($component, self::$color_char, self::$hex_colors);
 			}
 		}
-
-		if (is_array($json))
-			$legacy .= self::parseElement($json);
 
 		//If nothing was parsed until here, it's an array of components.
 		if (empty($legacy) && is_array($json)) {

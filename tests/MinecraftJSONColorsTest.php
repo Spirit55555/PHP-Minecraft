@@ -23,15 +23,23 @@ use \Spirit55555\Minecraft\MinecraftJSONColors;
 
 final class MinecraftJSONColorsTest extends TestCase {
 	public function testConvertToLegacy(): void {
-		$components[] = ["text" => "first "];
-		$components[] = ["text" => "second ", "color" => "red", ""];
-		$components[] = ["text" => "third ", "strikethrough" => true];
-		$components[] = ["text" => "forth ", "color" => '#AA0000'];
-		$json = ["extra" => $components];
+		$json = [];
+
+		$components[] = ['text' => 'second ', 'color' => 'red'];
+		$components[] = ['text' => 'third ', 'strikethrough' => true];
+		$components[] = ['text' => 'forth ', 'color' => '#AA0000'];
+
+		$json['text'] = 'first ';
+		$json['extra'] = $components;
 
 		$this->assertSame('first §r§csecond §r§mthird §rforth §r', MinecraftJSONColors::convertToLegacy($json));
 		$this->assertSame('first &r&csecond &r&mthird &rforth &r', MinecraftJSONColors::convertToLegacy($json, '&'));
 		$this->assertSame('first §r§csecond §r§mthird §r§#AA0000forth §r', MinecraftJSONColors::convertToLegacy($json, '§', true));
+
+		$components[] = ['text' => 'fifth ', 'extra' => [['text' => 'sixth ', 'color' => 'green']]];
+		$json['extra'] = $components;
+
+		$this->assertSame('first §r§csecond §r§mthird §rforth §rfifth §r§asixth §r', MinecraftJSONColors::convertToLegacy($json));
 	}
 }
 ?>
