@@ -25,8 +25,8 @@ namespace Spirit55555\Minecraft;
  */
 class MinecraftColors {
 	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
-	const REGEX_HEX = '/(?:§|&amp;)(#[0-9a-z]{6})/i';
-	const REGEX_ALL = '/(?:§|&amp;)([0-9a-fklmnor]|#[0-9a-z]{6})/i';
+	const REGEX_HEX = '/(?:§|&amp;)(#[0-9a-f]{6})/i';
+	const REGEX_ALL = '/(?:§|&amp;)([0-9a-fklmnor]|#[0-9a-f]{6})/i';
 
 	const START_TAG_INLINE_STYLED = '<span style="%s">';
 	const START_TAG_WITH_CLASS = '<span class="%s">';
