@@ -1,8 +1,0 @@
-language: php
-os: linux
-dist: focal
-php:
-  - '7.4'
-  - '8.0'
-install:
-  - 'composer update'

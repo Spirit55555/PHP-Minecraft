@@ -1,4 +1,4 @@
-[![Version](https://poser.pugx.org/spirit55555/php-minecraft/version)](https://packagist.org/packages/spirit55555/php-minecraft) [![Build Status](https://api.travis-ci.com/Spirit55555/PHP-Minecraft.svg?branch=master)](https://app.travis-ci.com/github/Spirit55555/PHP-Minecraft) [![License](https://poser.pugx.org/spirit55555/php-minecraft/license)](https://packagist.org/packages/spirit55555/php-minecraft) [![Total Downloads](https://poser.pugx.org/spirit55555/php-minecraft/downloads)](https://packagist.org/packages/spirit55555/php-minecraft)
+[![Version](https://poser.pugx.org/spirit55555/php-minecraft/version)](https://packagist.org/packages/spirit55555/php-minecraft) [![License](https://poser.pugx.org/spirit55555/php-minecraft/license)](https://packagist.org/packages/spirit55555/php-minecraft) [![Total Downloads](https://poser.pugx.org/spirit55555/php-minecraft/downloads)](https://packagist.org/packages/spirit55555/php-minecraft)
 
 # PHP-Minecraft
 ## Useful PHP classes for Minecraft
