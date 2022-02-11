@@ -158,24 +158,33 @@ class MinecraftColors {
 	 * @param  string $text
 	 * @param  string $sign The text to prepend all color codes.
 	 * @param  bool   $hex_colors Should HEX colors be converted as well? If not, they will be removed.
+	 * @param  bool   $hex_long_format Should HEX colors be returned in the long format?
 	 * @return string
 	 */
-	static public function convertToMOTD(string $text, string $sign = '\u00A7', bool $hex_colors = false): string {
+	static public function convertToMOTD(string $text, string $sign = '\u00A7', bool $hex_colors = false, bool $hex_long_format = false): string {
 		$text = self::UFT8Encode($text);
 		$text = str_replace("&", "&amp;", $text);
 
 		if ($hex_colors) {
 			$text = self::convertLongHEXtoShortHEX($text);
 
+			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+
 			$text = preg_replace_callback(
 				self::REGEX_HEX_SHORT,
-				function($matches) use ($sign) {
-					return $sign.strtoupper($matches[1]);
+				function($matches) use ($sign, $hex_long_format) {
+					if ($hex_long_format) {
+						$color = ltrim(strtoupper($matches[1]), '#');
+						$chars = str_split($color);
+
+						return $sign.'x'.$sign.$chars[0].$sign.$chars[1].$sign.$chars[2].$sign.$chars[3].$sign.$chars[4].$sign.$chars[5];
+					}
+
+					else
+						return $sign.strtoupper($matches[1]);
 				},
 				$text
 			);
-
-			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
 		}
 
 		else {
