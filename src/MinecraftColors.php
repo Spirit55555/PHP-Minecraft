@@ -168,7 +168,13 @@ class MinecraftColors {
 		if ($hex_colors) {
 			$text = self::convertLongHEXtoShortHEX($text);
 
-			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+			$text = preg_replace_callback(
+				self::REGEX,
+				function($matches) use ($sign) {
+					return $sign.strtolower($matches[1]);
+				},
+				$text
+			);
 
 			$text = preg_replace_callback(
 				self::REGEX_HEX_SHORT,
@@ -190,7 +196,14 @@ class MinecraftColors {
 		else {
 			$text = preg_replace(self::REGEX_HEX_SHORT, '', $text);
 			$text = preg_replace(self::REGEX_HEX_LONG, '', $text);
-			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
+
+			$text = preg_replace_callback(
+				self::REGEX,
+				function($matches) use ($sign) {
+					return $sign.strtolower($matches[1]);
+				},
+				$text
+			);
 		}
 
 		$text = str_replace("\n", '\n', $text);

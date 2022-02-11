@@ -51,8 +51,8 @@ final class MinecraftColorsTest extends TestCase {
 	}
 
 	public function testConvertToMOTD(): void {
-		$text = '§4Lorem §3§lipsum §rdolor &nsit &c&mamet';
-		$text_hex = '§#aa0000Lorem §3§lipsum §rdolor &nsit &#ff5555&mamet';
+		$text = '§4Lorem §3§lipsum §Rdolor &nsit &C&mamet';
+		$text_hex = '§#aa0000Lorem §3§lipsum §Rdolor &nsit &#FF5555&mamet';
 
 		$this->assertSame('\u00A74Lorem \u00A73\u00A7lipsum \u00A7rdolor \u00A7nsit \u00A7c\u00A7mamet', MinecraftColors::convertToMOTD($text));
 		$this->assertSame('&4Lorem &3&lipsum &rdolor &nsit &c&mamet', MinecraftColors::convertToMOTD($text, '&'));
