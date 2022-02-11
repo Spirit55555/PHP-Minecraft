@@ -53,6 +53,14 @@ echo MinecraftColors::convertToMOTD($text);
 //Will be compatible with BungeeCord's config.yml file
 echo MinecraftColors::convertToMOTD($text, '&');
 
+//Will also output RGB/HEX colors, if they exist (&#000000)
+//NOTE: Not supported in Vanilla Minecraft
+echo MinecraftColors::convertToMOTD($text, '&', true);
+
+//Same as above, but RGB/HEX in a long format (&x&0&0&0&0&0&0)
+//NOTE: Not supported in Vanilla Minecraft
+echo MinecraftColors::convertToMOTD($text, '&', true, true);
+
 //Remove all color codes
 echo MinecraftColors::clean($text);
 ?>
