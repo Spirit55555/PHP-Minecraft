@@ -60,5 +60,14 @@ final class MinecraftColorsTest extends TestCase {
 		$this->assertSame('Lorem \u00A73\u00A7lipsum \u00A7rdolor \u00A7nsit \u00A7mamet', MinecraftColors::convertToMOTD($text_hex, '\u00A7'));
 		$this->assertSame('&#AA0000Lorem &3&lipsum &rdolor &nsit &#FF5555&mamet', MinecraftColors::convertToMOTD($text_hex, '&', true));
 	}
+
+	public function testLongHEXFormat(): void {
+		$text = '§x§a§A§0§0§0§0Lorem &x&f&F&5&5&5&5ipsum';
+
+		$this->assertSame('Lorem ipsum', MinecraftColors::clean($text));
+		$this->assertSame('Lorem ipsum', MinecraftColors::convertToMOTD($text, '&'));
+		$this->assertSame('&#AA0000Lorem &#FF5555ipsum', MinecraftColors::convertToMOTD($text, '&', true));
+		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #FF5555">ipsum</span>', MinecraftColors::convertToHTML($text));
+	}
 }
 ?>

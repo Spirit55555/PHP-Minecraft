@@ -25,7 +25,8 @@ namespace Spirit55555\Minecraft;
  */
 class MinecraftColors {
 	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
-	const REGEX_HEX = '/(?:§|&amp;)(#[0-9a-f]{6})/i';
+	const REGEX_HEX_SHORT = '/(?:§|&amp;)(#[0-9a-f]{6})/i';
+	const REGEX_HEX_LONG = '/(?:§|&amp;)x(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])/i';
 	const REGEX_ALL = '/(?:§|&amp;)([0-9a-fklmnor]|#[0-9a-f]{6})/i';
 
 	const START_TAG_INLINE_STYLED = '<span style="%s">';
@@ -119,6 +120,24 @@ class MinecraftColors {
 	}
 
 	/**
+	 * Convert the long HEX format to the short.
+	 * Example of long HEX format: §x§a§A§0§0§0§0
+	 *
+	 * @param string $text
+	 * @return string
+	 */
+	static private function convertLongHEXtoShortHEX(string $text): string {
+		if (preg_match_all(self::REGEX_HEX_LONG, $text, $matches,  PREG_SET_ORDER)) {
+			foreach ($matches as $match) {
+				$hex_color = '§#'.$match[1].$match[2].$match[3].$match[4].$match[5].$match[6];
+				$text = str_replace($match[0], $hex_color, $text);
+			}
+		}
+
+		return $text;
+	}
+
+	/**
 	 * Clean a string from all colors and formatting codes.
 	 *
 	 * @param  string $text
@@ -127,6 +146,8 @@ class MinecraftColors {
 	static public function clean(string $text): string {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
+
+		$text = preg_replace(self::REGEX_HEX_LONG, '', $text);
 
 		return preg_replace(self::REGEX_ALL, '', $text);
 	}
@@ -144,8 +165,10 @@ class MinecraftColors {
 		$text = str_replace("&", "&amp;", $text);
 
 		if ($hex_colors) {
+			$text = self::convertLongHEXtoShortHEX($text);
+
 			$text = preg_replace_callback(
-				self::REGEX_HEX,
+				self::REGEX_HEX_SHORT,
 				function($matches) use ($sign) {
 					return $sign.strtoupper($matches[1]);
 				},
@@ -156,7 +179,8 @@ class MinecraftColors {
 		}
 
 		else {
-			$text = preg_replace(self::REGEX_HEX, '', $text);
+			$text = preg_replace(self::REGEX_HEX_SHORT, '', $text);
+			$text = preg_replace(self::REGEX_HEX_LONG, '', $text);
 			$text = preg_replace(self::REGEX, $sign.'${1}', $text);
 		}
 
@@ -178,6 +202,8 @@ class MinecraftColors {
 	static public function convertToHTML(string $text, bool $line_break_element = false, bool $css_classes = false, string $css_prefix = 'minecraft-formatted--'): string {
 		$text = self::UFT8Encode($text);
 		$text = htmlspecialchars($text);
+
+		$text = self::convertLongHEXtoShortHEX($text);
 
 		preg_match_all(self::REGEX_ALL, $text, $offsets);
 
