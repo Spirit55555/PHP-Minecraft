@@ -114,7 +114,7 @@ class MinecraftColors {
 	static private function UFT8Encode(string $text): string {
 		//Encode the text in UTF-8, but only if it's not already.
 		if (mb_detect_encoding($text) != 'UTF-8')
-			$text = utf8_encode($text);
+			$text = mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($text));
 
 		return $text;
 	}
