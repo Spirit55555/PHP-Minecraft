@@ -1,4 +1,4 @@
-[![Latest Stable Version](http://poser.pugx.org/spirit55555/php-minecraft/v)](https://packagist.org/packages/spirit55555/php-minecraft) [![Total Downloads](http://poser.pugx.org/spirit55555/php-minecraft/downloads)](https://packagist.org/packages/spirit55555/php-minecraft) [![License](http://poser.pugx.org/spirit55555/php-minecraft/license)](https://packagist.org/packages/spirit55555/php-minecraft) [![PHP Version Require](http://poser.pugx.org/spirit55555/php-minecraft/require/php)](https://packagist.org/packages/spirit55555/php-minecraft)
+[![Latest Stable Version](https://poser.pugx.org/spirit55555/php-minecraft/v)](https://packagist.org/packages/spirit55555/php-minecraft) [![Total Downloads](https://poser.pugx.org/spirit55555/php-minecraft/downloads)](https://packagist.org/packages/spirit55555/php-minecraft) [![License](https://poser.pugx.org/spirit55555/php-minecraft/license)](https://packagist.org/packages/spirit55555/php-minecraft) [![PHP Version Require](https://poser.pugx.org/spirit55555/php-minecraft/require/php)](https://packagist.org/packages/spirit55555/php-minecraft)
 
 # PHP-Minecraft
 ## Useful PHP classes for Minecraft
@@ -66,11 +66,11 @@ echo MinecraftColors::clean($text);
 ?>
 ```
 
-More information about Minecraft colors: http://minecraft.gamepedia.com/index.php?title=Color_codes
+More information about Minecraft colors: https://minecraft.fandom.com/wiki/Formatting_codes#Color_codes
 
 ## MinecraftJSONColors.php
 
-Converts  Minecraft JSON (http://wiki.vg/Chat) text to legacy format ('§aHello')
+Converts  Minecraft JSON (https://wiki.vg/Chat) text to legacy format ('§aHello')
 
 ### Usage
 
@@ -104,4 +104,4 @@ $votifier->sendVote('MINECRAFT_USERNAME');
 ?>
 ```
 
-More information about Votifier: http://dev.bukkit.org/bukkit-plugins/votifier/
+More information about Votifier: https://dev.bukkit.org/projects/votifier
