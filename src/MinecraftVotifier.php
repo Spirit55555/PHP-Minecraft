@@ -20,8 +20,6 @@ declare(strict_types=1);
 
 namespace Spirit55555\Minecraft;
 
-use Exception;
-
 class MinecraftVotifier {
 	const LEGACY_VOTE_FORMAT       = "VOTE\n%s\n%s\n%s\n%d\n";
 	const PUBLIC_KEY_FORMAT = "-----BEGIN PUBLIC KEY-----\n%s\n-----END PUBLIC KEY-----";
