@@ -101,12 +101,19 @@ If both are supplied, it will try v2 first and fall back to v1.
 ```php
 <?php
 require 'vendor/autoload.php';
-use \Spirit55555\Minecraft\MinecraftVotifier;
+use Spirit55555\Minecraft\MinecraftVotifier;
+use Spirit55555\Minecraft\MinecraftVotifierVote;
 
-$vote = new MinecraftVotifierVote('SERVICE_NAME', 'IP_ADDRESS', 'USERNAME', 'UUID');
+try {
+	$vote = new MinecraftVotifierVote('SERVICE_NAME', 'IP_ADDRESS', 'USERNAME', 'UUID');
 
-$votifier = new MinecraftVotifier('SERVER_HOST', 'VOTIFIER_PORT', 'TOKEN', 'PUBLIC_KEY');
-$votifier->sendVote($vote);
+	$votifier = new MinecraftVotifier('SERVER_HOST', 'VOTIFIER_PORT', 'TOKEN', 'PUBLIC_KEY');
+	$votifier->sendVote($vote);
+}
+
+catch (Exception $e) {
+	echo $e->getMessage();
+}
 ?>
 ```
 
