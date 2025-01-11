@@ -128,11 +128,11 @@ class MinecraftVotifier {
 
 		$legacy_vote = sprintf(self::LEGACY_VOTE_FORMAT, $this->service_name, $vote->username, $vote->address, time());
 
-		openssl_public_encrypt($legacy_vote, $encrypted_data, $this->public_key);
-
-		if ($this->stream) {
-			if (fwrite($this->stream, $encrypted_data))
-				return true;
+		if (openssl_public_encrypt($legacy_vote, $encrypted_data, $this->public_key)) {
+			if ($this->stream) {
+				if (fwrite($this->stream, $encrypted_data))
+					return true;
+			}
 		}
 
 		return false;
