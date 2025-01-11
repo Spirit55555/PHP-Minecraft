@@ -84,6 +84,10 @@ class MinecraftVotifierVote {
 	}
 
 	private function validateUUID(string $uuid): string {
+		//Optional, so allow to be empty.
+		if (empty($uuid))
+			return $uuid;
+
 		//Convert short UUID to full version
 		if (preg_match(self::UUID_FORMAT_SHORT, $uuid)) {
 			$parts[] = substr($uuid, 0, 8);
@@ -102,7 +106,7 @@ class MinecraftVotifierVote {
 	}
 
 	private function validateTimestamp(float $timestamp): float {
-		if (!is_float($timestamp))
+		if (!is_float($timestamp) || $timestamp < 0)
 			throw new MinecraftVotifierVoteException('Timestamp is not valid');
 
 		if ($timestamp === 0)
