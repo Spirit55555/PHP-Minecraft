@@ -77,6 +77,9 @@ class MinecraftVotifier {
 		$public_key = wordwrap($public_key, 65, "\n", true);
 		$public_key = sprintf(self::PUBLIC_KEY_FORMAT, $public_key);
 
+		if (!openssl_pkey_get_public($public_key))
+			throw new MinecraftVotifierException('Public key is not valid');
+
 		return $public_key;
 	}
 
