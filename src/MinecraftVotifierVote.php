@@ -109,8 +109,8 @@ class MinecraftVotifierVote {
 		if (!is_float($timestamp) || $timestamp < 0)
 			throw new MinecraftVotifierVoteException('Timestamp is not valid');
 
-		if ($timestamp === 0)
-			return round(microtime(true) / 1000);
+		if ($timestamp == 0)
+			return round(microtime(true) * 1000);
 
 		return $timestamp;
 	}
