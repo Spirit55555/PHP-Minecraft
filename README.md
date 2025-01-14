@@ -26,7 +26,7 @@ Just download the files and include them.
 
 ## MinecraftColors.php
 
-Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
+Convert [Minecraft color codes](https://minecraft.wiki/w/Formatting_codes) to HTML/CSS. Can also remove the color codes.
 
 ### Usage
 
@@ -66,11 +66,9 @@ echo MinecraftColors::clean($text);
 ?>
 ```
 
-More information about Minecraft colors: https://minecraft.fandom.com/wiki/Formatting_codes#Color_codes
-
 ## MinecraftJSONColors.php
 
-Converts  Minecraft JSON (https://wiki.vg/Chat) text to legacy format ('§aHello')
+Converts  [Minecraft JSON](https://minecraft.wiki/w/Text_component_format) text to legacy format ('§aHello')
 
 ### Usage
 
