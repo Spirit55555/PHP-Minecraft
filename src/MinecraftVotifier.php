@@ -1,6 +1,6 @@
 <?php
 /*
-	Copyright (c) 2024 Anders G. Jørgensen - https://spirit55555.dk
+	Copyright (c) 2025 Anders G. Jørgensen - https://spirit55555.dk
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
