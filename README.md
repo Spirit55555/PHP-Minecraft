@@ -90,16 +90,29 @@ echo MinecraftJSONColors::convertToLegacy($json);
 
 Send Votifier votes to a Minecraft server.
 
+This supports v2 (token) and v1 (public key) versions of the protocol.
+
+If both are supplied, it will try v2 first and fall back to v1.
+
 ### Usage
 
 ```php
 <?php
 require 'vendor/autoload.php';
-use \Spirit55555\Minecraft\MinecraftVotifier;
+use Spirit55555\Minecraft\MinecraftVotifier;
+use Spirit55555\Minecraft\MinecraftVotifierVote;
 
-$votifier = new MinecraftVotifier('YOUR_PUBLIC_KEY', 'YOUR_SERVER_IP', 'YOUR_VOTIFIER_PORT', 'YOUR_SERVICE_NAME');
-$votifier->sendVote('MINECRAFT_USERNAME');
+try {
+	$vote = new MinecraftVotifierVote('SERVICE_NAME', 'IP_ADDRESS', 'USERNAME', 'UUID');
+
+	$votifier = new MinecraftVotifier('SERVER_HOST', 'VOTIFIER_PORT', 'TOKEN', 'PUBLIC_KEY');
+	$votifier->sendVote($vote);
+}
+
+catch (Exception $e) {
+	echo $e->getMessage();
+}
 ?>
 ```
 
-More information about Votifier: https://dev.bukkit.org/projects/votifier
+More information about the Votifier protocols: https://github.com/NuVotifier/NuVotifier/wiki/Technical-QA
