@@ -20,6 +20,12 @@ declare(strict_types=1);
 
 namespace Spirit55555\Minecraft;
 
+/**
+ * MinecraftVotifierVote
+ *
+ * Helper class to format votes used by MinecraftVotifier->sendVote()
+ * @package Spirit55555\Minecraft
+ */
 class MinecraftVotifierVote {
 	const USERNAME_FORMAT   = '/^[a-zA-Z0-9_]{3,16}$/';
 	const UUID_FORMAT_FULL  = '/^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i';
@@ -31,6 +37,15 @@ class MinecraftVotifierVote {
 	private $uuid;
 	private $timestamp;
 
+	/**
+	 * Create a new vote
+	 * @param string $service_name Service name
+	 * @param string $address IP address
+	 * @param string $username Minecraft username
+	 * @param null|string $uuid Minecraft UUID
+	 * @param null|float $timestamp Timestamp in milliseconds
+	 * @throws MinecraftVotifierVoteException
+	 */
 	public function __construct(string $service_name, string $address, string $username, ?string $uuid = '', ?float $timestamp = 0) {
 		$this->service_name = $service_name;
 		$this->address      = $this->validateAddress($address);
@@ -62,13 +77,24 @@ class MinecraftVotifierVote {
 		}
 	}
 
+	/**
+	 * Checks if a vote is considered valid and ready to be sent
+	 * @return bool
+	 */
 	public function isValid(): bool {
+		//UUID is optional and timestamp will always be set, so don't check for those
 		if (!empty($this->service_name) && !empty($this->address) && !empty($this->username))
 			return true;
 
 		return false;
 	}
 
+	/**
+	 * Validate the IP address
+	 * @param string $address IP address to validate
+	 * @return string Valid IP address
+	 * @throws MinecraftVotifierVoteException
+	 */
 	private function validateAddress(string $address): string {
 		if (filter_var($address, FILTER_VALIDATE_IP) === false)
 			throw new MinecraftVotifierVoteException('Address is not a valid IP address');
@@ -76,6 +102,12 @@ class MinecraftVotifierVote {
 		return $address;
 	}
 
+	/**
+	 * Validate the username
+	 * @param string $username Username to validate
+	 * @return string Valid username
+	 * @throws MinecraftVotifierVoteException
+	 */
 	private function validateUsername(string $username): string {
 		if (!preg_match(self::USERNAME_FORMAT, $username))
 			throw new MinecraftVotifierVoteException('Username is not valid');
@@ -83,6 +115,14 @@ class MinecraftVotifierVote {
 		return $username;
 	}
 
+	/**
+	 * Validate a UUID
+	 *
+	 * Short UUIDs (without dashes) will be formatted to the correct format.
+	 * @param string $uuid UUID to validate
+	 * @return string Valid UUID
+	 * @throws MinecraftVotifierVoteException
+	 */
 	private function validateUUID(string $uuid): string {
 		//Optional, so allow to be empty.
 		if (empty($uuid))
@@ -105,6 +145,14 @@ class MinecraftVotifierVote {
 		return $uuid;
 	}
 
+	/**
+	 * Validate a timestamp
+	 *
+	 * If set to 0 (the default), it will be set to the current time (in milliseconds)
+	 * @param float $timestamp Timestamp to validate
+	 * @return float Valid UUID
+	 * @throws MinecraftVotifierVoteException
+	 */
 	private function validateTimestamp(float $timestamp): float {
 		if (!is_float($timestamp) || $timestamp < 0)
 			throw new MinecraftVotifierVoteException('Timestamp is not valid');

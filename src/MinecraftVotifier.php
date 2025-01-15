@@ -20,9 +20,19 @@ declare(strict_types=1);
 
 namespace Spirit55555\Minecraft;
 
+/**
+ * MinecraftVotifier
+ *
+ * Class for sending Votifier votes.
+ * Supports token (v2) and public key (v1) protocols.
+ *
+ * More information about the Votifier protocols:
+ * https://github.com/NuVotifier/NuVotifier/wiki/Technical-QA
+ * @package Spirit55555\Minecraft
+ */
 class MinecraftVotifier {
-	const LEGACY_VOTE_FORMAT       = "VOTE\n%s\n%s\n%s\n%d\n";
-	const PUBLIC_KEY_FORMAT = "-----BEGIN PUBLIC KEY-----\n%s\n-----END PUBLIC KEY-----";
+	const LEGACY_VOTE_FORMAT = "VOTE\n%s\n%s\n%s\n%d\n";
+	const PUBLIC_KEY_FORMAT  = "-----BEGIN PUBLIC KEY-----\n%s\n-----END PUBLIC KEY-----";
 
 	private $stream;
 	private $challenge;
@@ -32,6 +42,15 @@ class MinecraftVotifier {
 	private $token;
 	private $public_key;
 
+	/**
+	 * Create a new Votifier instance
+	 * @param string $host IP address or hostname
+	 * @param int $port Port
+	 * @param null|string $token Token
+	 * @param null|string $public_key Public key
+	 * @return void
+	 * @throws MinecraftVotifierException
+	 */
 	public function __construct(string $host, int $port = 8192, ?string $token = '', ?string $public_key = '') {
 		$this->host       = $host;
 		$this->port       = $port;
@@ -40,6 +59,7 @@ class MinecraftVotifier {
 	}
 
 	public function __destruct() {
+		//Close the stream, if it's open
 		if (is_resource($this->stream))
 			fclose($this->stream);
 	}
@@ -55,6 +75,13 @@ class MinecraftVotifier {
 			$this->$name = $value;
 	}
 
+	/**
+	 * Parse a header from a server
+	 *
+	 * This header is only returned by servers that support v2 of the protocol.
+	 * @param string $header
+	 * @return void
+	 */
 	private function parseHeader(string $header): void {
 		$parts = explode(' ', trim($header));
 
@@ -70,6 +97,14 @@ class MinecraftVotifier {
 		$this->challenge = $parts[2];
 	}
 
+	/**
+	 * Format a public key, so it can be used with OpenSSL
+	 *
+	 * This will also check if it is a valid public key.
+	 * @param string $public_key
+	 * @return string
+	 * @throws MinecraftVotifierException
+	 */
 	private function formatPublicKey(string $public_key): string {
 		if (empty($public_key))
 			return '';
@@ -83,6 +118,14 @@ class MinecraftVotifier {
 		return $public_key;
 	}
 
+	/**
+	 * Attempt to send a token based (v2) vote
+	 *
+	 * The v2 protocol returns an answer from the server and we only consider it a success, if we get an ok and no errors back.
+	 * @param MinecraftVotifierVote $vote
+	 * @return bool If the vote was successfully sent or not
+	 * @throws MinecraftVotifierException
+	 */
 	private function sendTokenVote(MinecraftVotifierVote $vote): bool {
 		if (empty($this->token) || empty($this->challenge))
 			return false;
@@ -123,6 +166,13 @@ class MinecraftVotifier {
 		return true;
 	}
 
+	/**
+	 * Attempt to send a public key (v1) based vote
+	 *
+	 * The v1 protocol does not allow us to check if the vote was received or not, so if we can send it, we consider that a success.
+	 * @param MinecraftVotifierVote $vote
+	 * @return bool If the vote was successfully sent or not
+	 */
 	private function sendPublickeyVote(MinecraftVotifierVote $vote): bool {
 		if (empty($this->public_key))
 			return false;
@@ -139,6 +189,16 @@ class MinecraftVotifier {
 		return false;
 	}
 
+	/**
+	 * Send a vote
+	 *
+	 * If token based (v2) vote fails, it will attempt public key (v1) based vote, if there is a public key defined.
+	 *
+	 * If no token is defined, it will only attempt public key based vote.
+	 * @param MinecraftVotifierVote $vote
+	 * @return bool If the vote was successfully sent or not
+	 * @throws MinecraftVotifierException
+	 */
 	public function sendVote(MinecraftVotifierVote $vote): bool {
 		if (!$vote->isValid())
 			throw new MinecraftVotifierException('Vote is not valid');
