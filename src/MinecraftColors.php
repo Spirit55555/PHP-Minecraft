@@ -22,6 +22,8 @@ namespace Spirit55555\Minecraft;
 
 /**
  * Convert Minecraft color codes to HTML/CSS. Can also remove the color codes.
+ *
+ * More info: https://minecraft.wiki/w/Formatting_codes
  */
 class MinecraftColors {
 	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';

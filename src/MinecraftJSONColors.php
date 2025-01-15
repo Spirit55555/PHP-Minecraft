@@ -23,7 +23,7 @@ namespace Spirit55555\Minecraft;
 /**
  * Convert Minecraft JSON text to legacy format.
  *
- * Based on http://wiki.vg/Chat
+ * Based on https://minecraft.wiki/w/Text_component_format
  */
 class MinecraftJSONColors {
 	static private $color_char;
