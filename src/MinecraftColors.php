@@ -26,10 +26,11 @@ namespace Spirit55555\Minecraft;
  * More info: https://minecraft.wiki/w/Formatting_codes
  */
 class MinecraftColors {
-	const REGEX = '/(?:§|&amp;)([0-9a-fklmnor])/i';
+	const REGEX_JAVA = '/(?:§|&amp;)([0-9a-fklmnor])/i';
+	const REGEX_BEDROCK = '/(?:§|&amp;)([0-9a-v])/i';
 	const REGEX_HEX_SHORT = '/(?:§|&amp;)(#[0-9a-f]{6})/i';
 	const REGEX_HEX_LONG = '/(?:§|&amp;)x(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])/i';
-	const REGEX_ALL = '/(?:§|&amp;)([0-9a-fklmnor]|#[0-9a-f]{6})/i';
+	const REGEX_JAVA_ALL = '/(?:§|&amp;)([0-9a-fklmnor]|#[0-9a-f]{6})/i';
 
 	const START_TAG_INLINE_STYLED = '<span style="%s">';
 	const START_TAG_WITH_CLASS = '<span class="%s">';
@@ -40,11 +41,11 @@ class MinecraftColors {
 	const LINE_BREAK = '<br />';
 
 	/**
-	 * Color codes mapped to HEX colors.
+	 * Java color codes mapped to HEX colors.
 	 *
 	 * @var array
 	 */
-	static private $colors = [
+	static private $java_colors = [
 		'0' => '000000', //Black
 		'1' => '0000AA', //Dark Blue
 		'2' => '00AA00', //Dark Green
@@ -60,16 +61,53 @@ class MinecraftColors {
 		'c' => 'FF5555', //Red
 		'd' => 'FF55FF', //Light Purple
 		'e' => 'FFFF55', //Yellow
-		'f' => 'FFFFFF'  //White
+		'f' => 'FFFFFF' //White
 	];
 
 	/**
-	 * Formatting codes mapped to CSS style.
+	 * Bedrock color codes mapped to HEX colors.
+	 * Has more colors and a lighter Gray.
+	 *
+	 * @var array
+	 */
+	static private $bedrock_colors = [
+		'0' => '000000', //Black
+		'1' => '0000AA', //Dark Blue
+		'2' => '00AA00', //Dark Green
+		'3' => '00AAAA', //Dark Aqua
+		'4' => 'AA0000', //Dark Red
+		'5' => 'AA00AA', //Dark Purple
+		'6' => 'FFAA00', //Gold
+		'7' => 'C6C6C6', //Gray (Not the same as Java)
+		'8' => '555555', //Dark Gray
+		'9' => '5555FF', //Blue
+		'a' => '55FF55', //Green
+		'b' => '55FFFF', //Aqua
+		'c' => 'FF5555', //Red
+		'd' => 'FF55FF', //Light Purple
+		'e' => 'FFFF55', //Yellow
+		'f' => 'FFFFFF', //White
+		'g' => 'DDD605', //Minecoin Gold
+		'h' => 'E3D4D1', //Material Quartz
+		'i' => 'CECACA', //Material Iron
+		'j' => '443A3B', //Material Netherite
+		'm' => '971607', //Material Redstone
+		'n' => 'B4684D', //Material Copper
+		'p' => 'DEB12D', //Material Gold
+		'q' => '47A036', //Material Emerald
+		's' => '2CBAA8', //Material Diamond
+		't' => '21497B', //Material Lapis
+		'u' => '9A5CC6', //Material Amethyst
+		'v' => 'EB7114'  //Material Resin
+	];
+
+	/**
+	 * Java formatting codes mapped to CSS style.
 	 * Some codes intentionally have no CSS.
 	 *
 	 * @var array
 	 */
-	static private $formatting = [
+	static private $java_formatting = [
 		'k' => '',                               //Obfuscated
 		'l' => 'font-weight: bold;',             //Bold
 		'm' => 'text-decoration: line-through;', //Strikethrough
@@ -79,11 +117,25 @@ class MinecraftColors {
 	];
 
 	/**
-	 * Colors and formatting codes mapped to CSS classes.
+	 * Bedrock formatting codes mapped to CSS style.
+	 * Does not have Strikethrough and Underline
+	 * Some codes intentionally have no CSS.
 	 *
 	 * @var array
 	 */
-	static private $css_classnames = [
+	static private $bedrock_formatting = [
+		'k' => '',                    //Obfuscated
+		'l' => 'font-weight: bold;',  //Bold
+		'o' => 'font-style: italic;', //Italic
+		'r' => ''                     //Reset
+	];
+
+	/**
+	 * Java colors and formatting codes mapped to CSS classes.
+	 *
+	 * @var array
+	 */
+	static private $java_css_classnames = [
 		'0' => 'black',
 		'1' => 'dark-blue',
 		'2' => 'dark-green',
@@ -105,6 +157,45 @@ class MinecraftColors {
 		'm' => 'line-strikethrough',
 		'n' => 'underline',
 		'o' => 'italic'
+	];
+
+	/**
+	 * Bedrock colors and formatting codes mapped to CSS classes.
+	 *
+	 * @var array
+	 */
+	static private $bedrock_css_classnames = [
+		'0' => 'black',
+		'1' => 'dark-blue',
+		'2' => 'dark-green',
+		'3' => 'dark-aqua',
+		'4' => 'dark-red',
+		'5' => 'dark-purple',
+		'6' => 'gold',
+		'7' => 'gray',
+		'8' => 'dark-gray',
+		'9' => 'blue',
+		'a' => 'green',
+		'b' => 'aqua',
+		'c' => 'red',
+		'd' => 'light-purple',
+		'e' => 'yellow',
+		'f' => 'white',
+		'g' => 'minecoin-gold',
+		'h' => 'material-quartz',
+		'i' => 'material-iron',
+		'j' => 'material-netherite',
+		'k' => 'obfuscated',
+		'l' => 'bold',
+		'm' => 'material-redstone',
+		'n' => 'material-copper',
+		'o' => 'italic',
+		'p' => 'material-gold',
+		'q' => 'material-emerald',
+		's' => 'material-diamond',
+		't' => 'material-lapis',
+		'u' => 'material-amethyst',
+		'v' => 'material-resin'
 	];
 
 	/**
@@ -151,7 +242,7 @@ class MinecraftColors {
 
 		$text = preg_replace(self::REGEX_HEX_LONG, '', $text);
 
-		return preg_replace(self::REGEX_ALL, '', $text);
+		return preg_replace(self::REGEX_JAVA_ALL, '', $text);
 	}
 
 	/**
@@ -171,7 +262,7 @@ class MinecraftColors {
 			$text = self::convertLongHEXtoShortHEX($text);
 
 			$text = preg_replace_callback(
-				self::REGEX,
+				self::REGEX_JAVA,
 				function($matches) use ($sign) {
 					return $sign.strtolower($matches[1]);
 				},
@@ -200,7 +291,7 @@ class MinecraftColors {
 			$text = preg_replace(self::REGEX_HEX_LONG, '', $text);
 
 			$text = preg_replace_callback(
-				self::REGEX,
+				self::REGEX_JAVA,
 				function($matches) use ($sign) {
 					return $sign.strtolower($matches[1]);
 				},
@@ -229,7 +320,7 @@ class MinecraftColors {
 
 		$text = self::convertLongHEXtoShortHEX($text);
 
-		preg_match_all(self::REGEX_ALL, $text, $offsets);
+		preg_match_all(self::REGEX_JAVA_ALL, $text, $offsets);
 
 		$colors      = $offsets[0]; //This is what we are going to replace with HTML.
 		$color_codes = $offsets[1]; //This is the color numbers/characters only.
@@ -265,7 +356,7 @@ class MinecraftColors {
 				}
 
 				else {
-					$css_classname = $css_prefix.self::$css_classnames[$color_code];
+					$css_classname = $css_prefix.self::$java_css_classnames[$color_code];
 					$html .= sprintf(self::START_TAG_WITH_CLASS, $css_classname);
 					$open_tags++;
 				}
@@ -273,7 +364,7 @@ class MinecraftColors {
 
 			else {
 				if ($is_color) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.self::$colors[$color_code]);
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.self::$java_colors[$color_code]);
 					$open_tags++;
 				}
 
@@ -284,13 +375,13 @@ class MinecraftColors {
 
 				//Special case for obfuscated, always add a CSS class for this.
 				else if ($color_code === 'k') {
-					$css_classname = $css_prefix.self::$css_classnames[$color_code];
+					$css_classname = $css_prefix.self::$java_css_classnames[$color_code];
 					$html .= sprintf(self::START_TAG_WITH_CLASS, $css_classname);
 					$open_tags++;
 				}
 
 				else if (!$is_reset) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::$formatting[$color_code]);
+					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::$java_formatting[$color_code]);
 					$open_tags++;
 				}
 			}
