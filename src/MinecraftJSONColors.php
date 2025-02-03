@@ -34,7 +34,7 @@ class MinecraftJSONColors {
 	 *
 	 * @var array
 	 */
-	static private $colors = array(
+	static private $colors = [
 		'black'        => '0',
 		'dark_blue'    => '1',
 		'dark_green'   => '2',
@@ -51,21 +51,21 @@ class MinecraftJSONColors {
 		'light_purple' => 'd',
 		'yellow'       => 'e',
 		'white'        => 'f'
-	);
+	];
 
 	/**
 	 * Formatting names mapped to legacy codes.
 	 *
 	 * @var array
 	 */
-	static private $formatting = array(
+	static private $formatting = [
 		'obfuscated'    => 'k',
 		'bold'          => 'l',
 		'strikethrough' => 'm',
 		'underline'     => 'n',
 		'italic'        => 'o',
 		'reset'         => 'r'
-	);
+	];
 
 	/**
 	 * Convert Minecraft JSON text to legacy format.
