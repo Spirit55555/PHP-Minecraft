@@ -337,7 +337,7 @@ class MinecraftColors {
 			$html = '';
 
 			$is_reset = $color_code === 'r';
-			$is_color = isset(self::$colors[$color_code]);
+			$is_color = isset(self::$java_colors[$color_code]);
 			$is_hex = strlen($color_code) === 7; //#RRGGBB
 
 			if ($is_reset || $is_color || $is_hex) {
