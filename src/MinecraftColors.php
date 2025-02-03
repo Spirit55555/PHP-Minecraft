@@ -204,7 +204,7 @@ class MinecraftColors {
 	 * @param  mixed $text
 	 * @return string
 	 */
-	static private function UFT8Encode(string $text): string {
+	static private function UTF8Encode(string $text): string {
 		//Encode the text in UTF-8, but only if it's not already.
 		if (mb_detect_encoding($text) != 'UTF-8')
 			$text = mb_convert_encoding($text, 'UTF-8', mb_detect_encoding($text));
@@ -237,7 +237,7 @@ class MinecraftColors {
 	 * @return string
 	 */
 	static public function clean(string $text): string {
-		$text = self::UFT8Encode($text);
+		$text = self::UTF8Encode($text);
 		$text = htmlspecialchars($text);
 
 		$text = preg_replace(self::REGEX_HEX_LONG, '', $text);
@@ -255,7 +255,7 @@ class MinecraftColors {
 	 * @return string
 	 */
 	static public function convertToMOTD(string $text, string $sign = '\u00A7', bool $hex_colors = false, bool $hex_long_format = false): string {
-		$text = self::UFT8Encode($text);
+		$text = self::UTF8Encode($text);
 		$text = str_replace("&", "&amp;", $text);
 
 		if ($hex_colors) {
@@ -315,7 +315,7 @@ class MinecraftColors {
 	 * @return string
 	 */
 	static public function convertToHTML(string $text, bool $line_break_element = false, bool $css_classes = false, string $css_prefix = 'minecraft-formatted--'): string {
-		$text = self::UFT8Encode($text);
+		$text = self::UTF8Encode($text);
 		$text = htmlspecialchars($text);
 
 		$text = self::convertLongHEXtoShortHEX($text);
