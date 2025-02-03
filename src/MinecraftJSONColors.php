@@ -128,20 +128,10 @@ class MinecraftJSONColors {
 		if (isset($json['color']) && isset(self::$colors[$json['color']]))
 			$legacy .= self::$color_char.self::$colors[$json['color']];
 
-		if (isset($json['obfuscated']) && $json['obfuscated'])
-			$legacy .= self::$color_char.self::$formatting['obfuscated'];
-
-		if (isset($json['strikethrough']) && $json['strikethrough'])
-			$legacy .= self::$color_char.self::$formatting['strikethrough'];
-
-		if (isset($json['underlined']) && $json['underlined'])
-			$legacy .= self::$color_char.self::$formatting['underline'];
-
-		if (isset($json['italic']) && $json['italic'])
-			$legacy .= self::$color_char.self::$formatting['italic'];
-
-		if (isset($json['bold']) && $json['bold'])
-			$legacy .= self::$color_char.self::$formatting['bold'];
+		foreach (self::$formatting as $name => $code) {
+			if (isset($json[$name]) && $json[$name])
+				$legacy .= self::$color_char.$code;
+		}
 
 		if (isset($json['text']))
 			$legacy .= $json['text'];
