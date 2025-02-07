@@ -26,15 +26,18 @@ namespace Spirit55555\Minecraft;
  * More info: https://minecraft.wiki/w/Formatting_codes
  */
 class MinecraftColors {
-	const REGEX_JAVA = '/(?:§|&amp;)([0-9a-fklmnor])/i';
-	const REGEX_BEDROCK = '/(?:§|&amp;)([0-9a-v])/i';
+	const REGEX_JAVA      = '/(?:§|&amp;)([0-9a-fklmnor])/i';
+	const REGEX_BEDROCK   = '/(?:§|&amp;)([0-9a-v])/i';
 	const REGEX_HEX_SHORT = '/(?:§|&amp;)(#[0-9a-f]{6})/i';
-	const REGEX_HEX_LONG = '/(?:§|&amp;)x(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])/i';
-	const REGEX_JAVA_ALL = '/(?:§|&amp;)([0-9a-fklmnor]|#[0-9a-f]{6})/i';
+	const REGEX_HEX_LONG  = '/(?:§|&amp;)x(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])(?:§|&amp;)([0-9a-f])/i';
+	const REGEX_JAVA_ALL  = '/(?:§|&amp;)([0-9a-fklmnor]|#[0-9a-f]{6})/i';
 
-	const START_TAG_INLINE_STYLED = '<span style="%s">';
+	const START_TAG_WITH_STYLE = '<span style="%s">';
 	const START_TAG_WITH_CLASS = '<span class="%s">';
-	const CLOSE_TAG = '</span>';
+	const START_TAG            = '<span %s>';
+	const CLOSE_TAG            = '</span>';
+	const STYLE_ATTR           = 'style="%s"';
+	const CLASS_ATTR           = 'class="%s"';
 
 	const CSS_COLOR  = 'color: #';
 	const EMPTY_TAGS = '/<[^\/>]*><\/[^>]*>/';
@@ -125,8 +128,8 @@ class MinecraftColors {
 	 */
 	static private $bedrock_formatting = [
 		'k' => '',                    //Obfuscated
-		'l' => 'font-weight: bold;',  //Bold
-		'o' => 'font-style: italic;', //Italic
+		'l' => 'font-weight: bold',  //Bold
+		'o' => 'font-style: italic', //Italic
 		'r' => ''                     //Reset
 	];
 
@@ -231,7 +234,7 @@ class MinecraftColors {
 	}
 
 	/**
-	 * Clean a string from all colors and formatting codes.
+	 * Clean a string from all Java colors and formatting codes.
 	 *
 	 * @param  string $text
 	 * @return string
@@ -246,7 +249,20 @@ class MinecraftColors {
 	}
 
 	/**
-	 * Convert a string to a MOTD format.
+	 * Clean a string from all Bedrock colors and formatting codes.
+	 *
+	 * @param  string $text
+	 * @return string
+	 */
+	static public function cleanBedrock(string $text): string {
+		$text = self::UTF8Encode($text);
+		$text = htmlspecialchars($text);
+
+		return preg_replace(self::REGEX_BEDROCK, '', $text);
+	}
+
+	/**
+	 * Convert a string with Java colors and formatting codes to a MOTD format.
 	 *
 	 * @param  string $text
 	 * @param  string $sign The text to prepend all color codes.
@@ -306,7 +322,32 @@ class MinecraftColors {
 	}
 
 	/**
-	 * Convert a string to HTML.
+	 * Convert a string with Bedrock colors and formatting codes to a MOTD format.
+	 *
+	 * @param  string $text
+	 * @param  string $sign The text to prepend all color codes.
+	 * @return string
+	 */
+	static public function convertToBedrockMOTD(string $text, string $sign = '\u00A7'): string {
+		$text = self::UTF8Encode($text);
+		$text = str_replace("&", "&amp;", $text);
+
+		$text = preg_replace_callback(
+			self::REGEX_BEDROCK,
+			function($matches) use ($sign) {
+				return $sign.strtolower($matches[1]);
+			},
+			$text
+		);
+
+		$text = str_replace("\n", '\n', $text);
+		$text = str_replace("&amp;", "&", $text);
+
+		return $text;
+	}
+
+	/**
+	 * Convert a string with Java colors and formatting codes to HTML.
 	 *
 	 * @param  string $text
 	 * @param  bool   $line_break_element Should new lines be converted to br tags?
@@ -351,7 +392,7 @@ class MinecraftColors {
 			if ($css_classes && !$is_reset) {
 				//No reason to give HEX colors a CSS class.
 				if ($is_hex) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
+					$html .= sprintf(self::START_TAG_WITH_STYLE, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
 					$open_tags++;
 				}
 
@@ -364,12 +405,12 @@ class MinecraftColors {
 
 			else {
 				if ($is_color) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.self::$java_colors[$color_code]);
+					$html .= sprintf(self::START_TAG_WITH_STYLE, self::CSS_COLOR.self::$java_colors[$color_code]);
 					$open_tags++;
 				}
 
 				else if ($is_hex) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
+					$html .= sprintf(self::START_TAG_WITH_STYLE, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
 					$open_tags++;
 				}
 
@@ -381,7 +422,7 @@ class MinecraftColors {
 				}
 
 				else if (!$is_reset) {
-					$html .= sprintf(self::START_TAG_INLINE_STYLED, self::$java_formatting[$color_code]);
+					$html .= sprintf(self::START_TAG_WITH_STYLE, self::$java_formatting[$color_code]);
 					$open_tags++;
 				}
 			}
@@ -401,6 +442,117 @@ class MinecraftColors {
 		//Replace \n with <br />
 		if ($line_break_element)
 			$text = str_replace(['\n', "\n"], self::LINE_BREAK, $text);
+
+		//Return the text without empty HTML tags. Only to clean up bad color formatting from the user.
+		return preg_replace(self::EMPTY_TAGS, '', $text);
+	}
+
+	/**
+	 * Convert a string with Bedrock colors and formatting codes to HTML.
+	 *
+	 * @param  string $text
+	 * @param  bool   $line_break_element Should new lines be converted to br tags?
+	 * @param  bool   $css_classes Should CSS classes be used instead of inline styes?
+	 * @param  string $css_prefix The prefix for CSS classes.
+	 * @return string
+	 */
+	static public function convertToBedrockHTML(string $text, bool $line_break_element = false, bool $css_classes = false, string $css_prefix = 'minecraft-formatted--'): string {
+		$text = self::UTF8Encode($text);
+		$text = htmlspecialchars($text);
+
+		preg_match_all(self::REGEX_BEDROCK, $text, $offsets);
+
+		$colors      = $offsets[0]; //This is what we are going to replace with HTML.
+		$color_codes = $offsets[1]; //This is the color numbers/characters only.
+
+		//No colors? Just return the text.
+		if (empty($colors))
+			return $text;
+
+		$open_tag = false;
+		$current_color = '';
+		$current_formatting = [];
+
+		foreach ($colors as $index => $color) {
+			$color_code = strtolower($color_codes[$index]);
+
+			$html       = '';
+			$attributes = [];
+			$styles     = [];
+			$classes    = [];
+
+			$is_reset = $color_code === 'r';
+			$is_color = isset(self::$bedrock_colors[$color_code]);
+
+			//Close an open tag, if any
+			if ($open_tag) {
+				$html .= self::CLOSE_TAG;
+				$open_tag = false;
+			}
+
+			//Reset all other colors and formatting.
+			if ($is_reset) {
+				$current_color = ''; //Reset current color code
+				$current_formatting = []; //Reset current formatting codes
+			}
+
+			//Normal color code
+			else if ($is_color) {
+				if ($css_classes)
+					$classes[] = $css_prefix.self::$bedrock_css_classnames[$color_code];
+				else
+					$styles[] = self::CSS_COLOR.self::$bedrock_colors[$color_code];
+
+				$current_color = $color_code;
+				$open_tag = true;
+			}
+
+			//Formatting code
+			else {
+				//Special case for obfuscated, always add a CSS class for this
+				if ($css_classes || $color_code === 'k')
+					$classes[] = $css_prefix.self::$bedrock_css_classnames[$color_code];
+				else
+					$styles[] = self::$bedrock_formatting[$color_code];
+
+				$current_formatting[$color_code] = true;
+				$open_tag = true;
+			}
+
+			//Check if we need to add the current color, if not the current code.
+			if (!empty($current_color) && $current_color != $color_code) {
+				if ($css_classes)
+					$classes[] = $css_prefix.self::$bedrock_css_classnames[$current_color];
+				else
+					$styles[] = self::CSS_COLOR.self::$bedrock_colors[$current_color];
+			}
+
+			foreach ($current_formatting as $formatting => $is_enabled) {
+				//Check if the formatting has already been added
+				if ($is_enabled && $formatting != $color_code) {
+					//Special case for obfuscated, always add a CSS class for this.
+					if ($css_classes || $formatting === 'k')
+						$classes[] = $css_prefix.self::$bedrock_css_classnames[$formatting];
+					else
+						$styles[] = self::$bedrock_formatting[$formatting];
+				}
+			}
+
+			if (!empty($styles))
+				$attributes[] = sprintf(self::STYLE_ATTR, implode(' ', $styles));
+
+			if (!empty($classes))
+				$attributes[] = sprintf(self::CLASS_ATTR, implode(' ', $classes));
+
+			if (!empty($attributes))
+				$html .= sprintf(self::START_TAG, implode(' ', $attributes));
+
+			//Replace the color with the HTML code. We use preg_replace because of the limit parameter.
+			$text = preg_replace('/'.$color.'/', $html, $text, 1);
+		}
+
+		if ($open_tag)
+			$text .= self::CLOSE_TAG;
 
 		//Return the text without empty HTML tags. Only to clean up bad color formatting from the user.
 		return preg_replace(self::EMPTY_TAGS, '', $text);
