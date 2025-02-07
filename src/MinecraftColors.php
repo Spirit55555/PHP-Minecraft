@@ -39,7 +39,7 @@ class MinecraftColors {
 	const STYLE_ATTR           = 'style="%s"';
 	const CLASS_ATTR           = 'class="%s"';
 
-	const CSS_COLOR  = 'color: #';
+	const CSS_COLOR  = 'color: #%s;';
 	const EMPTY_TAGS = '/<[^\/>]*><\/[^>]*>/';
 	const LINE_BREAK = '<br />';
 
@@ -128,8 +128,8 @@ class MinecraftColors {
 	 */
 	static private $bedrock_formatting = [
 		'k' => '',                    //Obfuscated
-		'l' => 'font-weight: bold',  //Bold
-		'o' => 'font-style: italic', //Italic
+		'l' => 'font-weight: bold;',  //Bold
+		'o' => 'font-style: italic;', //Italic
 		'r' => ''                     //Reset
 	];
 
@@ -392,7 +392,7 @@ class MinecraftColors {
 			if ($css_classes && !$is_reset) {
 				//No reason to give HEX colors a CSS class.
 				if ($is_hex) {
-					$html .= sprintf(self::START_TAG_WITH_STYLE, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
+					$html .= sprintf(self::START_TAG_WITH_STYLE, sprintf(self::CSS_COLOR, ltrim(strtoupper($color_code), '#')));
 					$open_tags++;
 				}
 
@@ -405,12 +405,12 @@ class MinecraftColors {
 
 			else {
 				if ($is_color) {
-					$html .= sprintf(self::START_TAG_WITH_STYLE, self::CSS_COLOR.self::$java_colors[$color_code]);
+					$html .= sprintf(self::START_TAG_WITH_STYLE, sprintf(self::CSS_COLOR, self::$java_colors[$color_code]));
 					$open_tags++;
 				}
 
 				else if ($is_hex) {
-					$html .= sprintf(self::START_TAG_WITH_STYLE, self::CSS_COLOR.ltrim(strtoupper($color_code), '#'));
+					$html .= sprintf(self::START_TAG_WITH_STYLE, sprintf(self::CSS_COLOR, ltrim(strtoupper($color_code), '#')));
 					$open_tags++;
 				}
 
@@ -456,7 +456,7 @@ class MinecraftColors {
 	 * @param  string $css_prefix The prefix for CSS classes.
 	 * @return string
 	 */
-	static public function convertToBedrockHTML(string $text, bool $line_break_element = false, bool $css_classes = false, string $css_prefix = 'minecraft-formatted--'): string {
+	static public function convertToBedrockHTML(string $text, bool $css_classes = false, string $css_prefix = 'minecraft-formatted--'): string {
 		$text = self::UTF8Encode($text);
 		$text = htmlspecialchars($text);
 
@@ -501,7 +501,7 @@ class MinecraftColors {
 				if ($css_classes)
 					$classes[] = $css_prefix.self::$bedrock_css_classnames[$color_code];
 				else
-					$styles[] = self::CSS_COLOR.self::$bedrock_colors[$color_code];
+					$styles[] = sprintf(self::CSS_COLOR, self::$bedrock_colors[$color_code]);
 
 				$current_color = $color_code;
 				$open_tag = true;
@@ -524,7 +524,7 @@ class MinecraftColors {
 				if ($css_classes)
 					$classes[] = $css_prefix.self::$bedrock_css_classnames[$current_color];
 				else
-					$styles[] = self::CSS_COLOR.self::$bedrock_colors[$current_color];
+					$styles[] = sprintf(self::CSS_COLOR, self::$bedrock_colors[$current_color]);
 			}
 
 			foreach ($current_formatting as $formatting => $is_enabled) {
