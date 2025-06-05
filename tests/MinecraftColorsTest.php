@@ -30,24 +30,38 @@ final class MinecraftColorsTest extends TestCase {
 		$this->assertSame('Lorem ipsum dolor sit amet', MinecraftColors::clean($text_hex));
 	}
 
+	public function testCleanBedrock(): void {
+		$text = '§mLorem §v§lipsum §rdolor &nsit &c&mamet';
+
+		$this->assertSame('Lorem ipsum dolor sit amet', MinecraftColors::cleanBedrock($text));
+	}
+
 	public function testConvertToHTML(): void {
 		$text = '§4Lorem §3§lipsum'."\n".'§rdolor &nsit &c&kamet';
 		$text_hex = '§#AA0000Lorem §3§lipsum'."\n".'§rdolor &nsit &#FF5555&kamet';
 
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span>'."\n".'dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text));
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span><br />dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text, true));
+		$this->assertSame('<span style="color: #AA0000;">Lorem </span><span style="color: #00AAAA;"><span style="font-weight: bold;">ipsum</span></span>'."\n".'dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555;"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text));
+		$this->assertSame('<span style="color: #AA0000;">Lorem </span><span style="color: #00AAAA;"><span style="font-weight: bold;">ipsum</span></span><br />dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555;"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text, true));
 		$this->assertSame('<span class="minecraft-formatted--dark-red">Lorem </span><span class="minecraft-formatted--dark-aqua"><span class="minecraft-formatted--bold">ipsum</span></span><br />dolor <span class="minecraft-formatted--underline">sit </span><span class="minecraft-formatted--red"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text, true, true));
 		$this->assertSame('<span class="mc-motd--dark-red">Lorem </span><span class="mc-motd--dark-aqua"><span class="mc-motd--bold">ipsum</span></span><br />dolor <span class="mc-motd--underline">sit </span><span class="mc-motd--red"><span class="mc-motd--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text, true, true, 'mc-motd--'));
 
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span>'."\n".'dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex));
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span><br />dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex, true));
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span class="minecraft-formatted--dark-aqua"><span class="minecraft-formatted--bold">ipsum</span></span><br />dolor <span class="minecraft-formatted--underline">sit </span><span style="color: #FF5555"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex, true, true));
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span class="mc-motd--dark-aqua"><span class="mc-motd--bold">ipsum</span></span><br />dolor <span class="mc-motd--underline">sit </span><span style="color: #FF5555"><span class="mc-motd--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex, true, true, 'mc-motd--'));
+		$this->assertSame('<span style="color: #AA0000;">Lorem </span><span style="color: #00AAAA;"><span style="font-weight: bold;">ipsum</span></span>'."\n".'dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555;"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex));
+		$this->assertSame('<span style="color: #AA0000;">Lorem </span><span style="color: #00AAAA;"><span style="font-weight: bold;">ipsum</span></span><br />dolor <span style="text-decoration: underline;">sit </span><span style="color: #FF5555;"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex, true));
+		$this->assertSame('<span style="color: #AA0000;">Lorem </span><span class="minecraft-formatted--dark-aqua"><span class="minecraft-formatted--bold">ipsum</span></span><br />dolor <span class="minecraft-formatted--underline">sit </span><span style="color: #FF5555;"><span class="minecraft-formatted--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex, true, true));
+		$this->assertSame('<span style="color: #AA0000;">Lorem </span><span class="mc-motd--dark-aqua"><span class="mc-motd--bold">ipsum</span></span><br />dolor <span class="mc-motd--underline">sit </span><span style="color: #FF5555;"><span class="mc-motd--obfuscated">amet</span></span>', MinecraftColors::convertToHTML($text_hex, true, true, 'mc-motd--'));
+	}
+
+	public function testConvertToBedrockHTML(): void {
+		$text = '§4Lorem §l§3ipsum §rdolor &nsit &c&kamet';
+
+		$this->assertSame('<span style="color: #AA0000;">Lorem </span><span style="color: #00AAAA; font-weight: bold;">ipsum </span>dolor <span style="color: #B4684D;">sit </span><span style="color: #FF5555;" class="minecraft-formatted--obfuscated">amet</span>', MinecraftColors::convertToBedrockHTML($text));
+		$this->assertSame('<span class="minecraft-formatted--dark-red">Lorem </span><span class="minecraft-formatted--dark-aqua minecraft-formatted--bold">ipsum </span>dolor <span class="minecraft-formatted--material-copper">sit </span><span class="minecraft-formatted--obfuscated minecraft-formatted--red">amet</span>', MinecraftColors::convertToBedrockHTML($text, true));
+		$this->assertSame('<span class="mc-motd--dark-red">Lorem </span><span class="mc-motd--dark-aqua mc-motd--bold">ipsum </span>dolor <span class="mc-motd--material-copper">sit </span><span class="mc-motd--obfuscated mc-motd--red">amet</span>', MinecraftColors::convertToBedrockHTML($text, true, 'mc-motd--'));
 	}
 
 	public function testConvertToHTMLEmptyTags(): void {
 		$text = '§7     §4Lorem §3§lipsum§7     ';
-		$this->assertSame('<span style="color: #AAAAAA">     </span><span style="color: #AA0000">Lorem </span><span style="color: #00AAAA"><span style="font-weight: bold;">ipsum</span></span><span style="color: #AAAAAA">     </span>', MinecraftColors::convertToHTML($text));
+		$this->assertSame('<span style="color: #AAAAAA;">     </span><span style="color: #AA0000;">Lorem </span><span style="color: #00AAAA;"><span style="font-weight: bold;">ipsum</span></span><span style="color: #AAAAAA;">     </span>', MinecraftColors::convertToHTML($text));
 	}
 
 	public function testConvertToMOTD(): void {
@@ -62,13 +76,20 @@ final class MinecraftColorsTest extends TestCase {
 		$this->assertSame('&x&A&A&0&0&0&0Lorem &3&lipsum &rdolor &nsit &x&F&F&5&5&5&5&mamet', MinecraftColors::convertToMOTD($text_hex, '&', true, true));
 	}
 
+	public function testConvertToBedrockMOTD(): void {
+		$text = '§4Lorem §3§lipsum §Rdolor &nsit &C&mamet';
+
+		$this->assertSame('\u00A74Lorem \u00A73\u00A7lipsum \u00A7rdolor \u00A7nsit \u00A7c\u00A7mamet', MinecraftColors::convertToBedrockMOTD($text));
+		$this->assertSame('&4Lorem &3&lipsum &rdolor &nsit &c&mamet', MinecraftColors::convertToBedrockMOTD($text, '&'));
+	}
+
 	public function testLongHEXFormat(): void {
 		$text = '§x§a§A§0§0§0§0Lorem &x&f&F&5&5&5&5ipsum';
 
 		$this->assertSame('Lorem ipsum', MinecraftColors::clean($text));
 		$this->assertSame('Lorem ipsum', MinecraftColors::convertToMOTD($text, '&'));
 		$this->assertSame('&#AA0000Lorem &#FF5555ipsum', MinecraftColors::convertToMOTD($text, '&', true));
-		$this->assertSame('<span style="color: #AA0000">Lorem </span><span style="color: #FF5555">ipsum</span>', MinecraftColors::convertToHTML($text));
+		$this->assertSame('<span style="color: #AA0000;">Lorem </span><span style="color: #FF5555;">ipsum</span>', MinecraftColors::convertToHTML($text));
 	}
 }
 ?>
