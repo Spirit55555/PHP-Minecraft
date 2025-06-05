@@ -38,6 +38,10 @@ use \Spirit55555\Minecraft\MinecraftColors;
 //Support for § and & signs
 $text = '§4Lorem §3§lipsum §rdolor &nsit &c&mamet';
 
+################
+# JAVA EDITION #
+################
+
 //Convert to HTML with CSS colors
 echo MinecraftColors::convertToHTML($text);
 
@@ -63,6 +67,23 @@ echo MinecraftColors::convertToMOTD($text, '&', true, true);
 
 //Remove all color codes
 echo MinecraftColors::clean($text);
+
+###################
+# BEDROCK EDITION #
+###################
+
+//Convert to HTML with CSS colors
+echo MinecraftColors::convertToBedrockHTML($text);
+
+//Same as above, but will use CSS classes instead of inline styles
+echo MinecraftColors::convertToBedrockHTML($text, true, 'mc-motd--');
+
+//Will be compatible with the server.properties file
+echo MinecraftColors::convertToBedrockMOTD($text);
+
+//Remove all color codes
+echo MinecraftColors::cleanBedrock($text);
+
 ?>
 ```
 
