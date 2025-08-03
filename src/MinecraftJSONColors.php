@@ -89,19 +89,8 @@ class MinecraftJSONColors {
 
 		$legacy = '';
 
-		if (is_array($json)) {
-			//Reset the formatting to make the components independent.
-			$legacy .= self::parseElement($json).self::$color_char.self::$formatting['reset'];
-		}
-
-		if (isset($json['extra'])) {
-			foreach ($json['extra'] as $component) {
-				if (is_string($component))
-					$legacy .= $component;
-				else
-					$legacy .= self::convertToLegacy($component, self::$color_char, self::$hex_colors);
-			}
-		}
+		if (is_array($json))
+			$legacy .= self::parseElement($json);
 
 		//If nothing was parsed until here, it's an array of components.
 		if (empty($legacy) && is_array($json)) {
@@ -118,15 +107,24 @@ class MinecraftJSONColors {
 	 * @param  array $json
 	 * @return string
 	 */
-	private static function parseElement(array $json): string {
-		$legacy = '';
+	private static function parseElement(array $json, string $legacy = '', array $parent = []): string {
+		if (!empty($parent)) {
+			//Remove the parts we don't want to inherit
+			unset($parent['text'], $parent['extra']);
 
-		//Minecraft 1.16+ added support for RGB/HEX colors. Only parse it when enabled.
-		if (isset($json['color']) && self::$hex_colors && preg_match('/^#[0-9a-f]{6}$/i', $json['color']))
-			$legacy .= self::$color_char.$json['color'];
+			$json = array_merge($parent, $json);
+		}
 
-		if (isset($json['color']) && isset(self::$colors[$json['color']]))
-			$legacy .= self::$color_char.self::$colors[$json['color']];
+		if (isset($json['color'])) {
+			//Minecraft 1.16+ added support for RGB/HEX colors. Only add it when enabled.
+			if (preg_match('/^#[0-9a-f]{6}$/i', $json['color'])) {
+				if (self::$hex_colors)
+					$legacy .= self::$color_char.$json['color'];
+			}
+
+			else if (isset(self::$colors[$json['color']]))
+				$legacy .= self::$color_char.self::$colors[$json['color']];
+		}
 
 		foreach (self::$formatting as $name => $code) {
 			if (isset($json[$name]) && $json[$name])
@@ -135,6 +133,18 @@ class MinecraftJSONColors {
 
 		if (isset($json['text']))
 			$legacy .= $json['text'];
+
+		//Add reset after we have done the formatting
+		$legacy .= self::$color_char.self::$formatting['reset'];
+
+		if (isset($json['extra'])) {
+			foreach ($json['extra'] as $component) {
+				if (is_string($component))
+					$legacy .= $component;
+				else
+					$legacy = self::parseElement($component, $legacy, $json);
+			}
+		}
 
 		return $legacy;
 	}

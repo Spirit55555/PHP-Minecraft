@@ -35,11 +35,22 @@ final class MinecraftJSONColorsTest extends TestCase {
 		$this->assertSame('first §r§csecond §r§mthird §rforth §r', MinecraftJSONColors::convertToLegacy($json));
 		$this->assertSame('first &r&csecond &r&mthird &rforth &r', MinecraftJSONColors::convertToLegacy($json, '&'));
 		$this->assertSame('first §r§csecond §r§mthird §r§#AA0000forth §r', MinecraftJSONColors::convertToLegacy($json, '§', true));
+	}
 
-		$components[] = ['text' => 'fifth ', 'extra' => [['text' => 'sixth ', 'color' => 'green']]];
-		$json['extra'] = $components;
+	public function testConvertToLegacyInherit(): void {
+		$json = [];
 
-		$this->assertSame('first §r§csecond §r§mthird §rforth §rfifth §r§asixth §r', MinecraftJSONColors::convertToLegacy($json));
+		$forth = ['text' => 'forth ', 'color' => '#AA0000'];
+		$third = ['text' => 'third ', 'strikethrough' => true, 'extra' => [$forth]];
+		$second = ['text' => 'second ', 'color' => 'red', 'extra' => [$third]];
+
+
+		$json['text'] = 'first ';
+		$json['extra'] = [$second];
+
+		$this->assertSame('first §r§csecond §r§c§mthird §r§mforth §r', MinecraftJSONColors::convertToLegacy($json));
+		$this->assertSame('first &r&csecond &r&c&mthird &r&mforth &r', MinecraftJSONColors::convertToLegacy($json, '&'));
+		$this->assertSame('first §r§csecond §r§c§mthird §r§#AA0000§mforth §r', MinecraftJSONColors::convertToLegacy($json, '§', true));
 	}
 }
 ?>
