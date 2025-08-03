@@ -41,16 +41,16 @@ final class MinecraftJSONColorsTest extends TestCase {
 		$json = [];
 
 		$forth = ['text' => 'forth ', 'color' => '#AA0000'];
-		$third = ['text' => 'third ', 'strikethrough' => true, 'extra' => [$forth]];
+		$third = ['text' => 'third ', 'strikethrough' => true, 'extra' => [$forth, 'fifth ']];
 		$second = ['text' => 'second ', 'color' => 'red', 'extra' => [$third]];
 
 
 		$json['text'] = 'first ';
 		$json['extra'] = [$second];
 
-		$this->assertSame('first §r§csecond §r§c§mthird §r§mforth §r', MinecraftJSONColors::convertToLegacy($json));
-		$this->assertSame('first &r&csecond &r&c&mthird &r&mforth &r', MinecraftJSONColors::convertToLegacy($json, '&'));
-		$this->assertSame('first §r§csecond §r§c§mthird §r§#AA0000§mforth §r', MinecraftJSONColors::convertToLegacy($json, '§', true));
+		$this->assertSame('first §r§csecond §r§c§mthird §r§mforth §r§c§mfifth §r', MinecraftJSONColors::convertToLegacy($json));
+		$this->assertSame('first &r&csecond &r&c&mthird &r&mforth &r&c&mfifth &r', MinecraftJSONColors::convertToLegacy($json, '&'));
+		$this->assertSame('first §r§csecond §r§c§mthird §r§#AA0000§mforth §r§c§mfifth §r', MinecraftJSONColors::convertToLegacy($json, '§', true));
 	}
 }
 ?>
