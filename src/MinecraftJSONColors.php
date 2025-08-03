@@ -139,10 +139,11 @@ class MinecraftJSONColors {
 
 		if (isset($json['extra'])) {
 			foreach ($json['extra'] as $component) {
+				//Convert string components to array so they can inherit
 				if (is_string($component))
-					$legacy .= $component;
-				else
-					$legacy = self::parseElement($component, $legacy, $json);
+					$component = ['text' => $component];
+
+				$legacy = self::parseElement($component, $legacy, $json);
 			}
 		}
 
